@@ -49,7 +49,7 @@
             <div class="course-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="m8.4 8-4 4 4 4M15.6 8l4 4-4 4M14 5l-4 14" /></svg>
             </div>
-            <div><div class="course-card-title">JavaScript<br />from zero</div><div class="course-card-meta">9 bite-sized steps</div></div>
+            <div><div class="course-card-title">JavaScript<br />from zero</div><div class="course-card-meta">10 bite-sized steps · about 2–3 hours</div></div>
           </div>
           <div class="progress-caption"><span>YOUR PROGRESS</span><span id="progressText">0 / 9</span></div>
           <div class="progress-track"><span id="progressBar"></span></div>
@@ -92,7 +92,7 @@
 
             <article class="idea-card">
               <div class="idea-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5a6.3 6.3 0 0 0-3.7 11.4c.8.6 1.2 1.3 1.3 2.1h4.8c.1-.8.5-1.5 1.3-2.1A6.3 6.3 0 0 0 12 3.5ZM9.8 20h4.4M10.2 17h3.6"/><path d="M12 1v1M3.8 4.1l.8.8m14.8-.8-.8.8M2 11h1.2m17.6 0H22"/></svg></div>
-              <div class="idea-copy"><div class="mini-label">THE BIG IDEA</div><p id="lessonConcept"></p></div>
+              <div class="idea-copy"><div class="mini-label">THE BIG IDEA</div><p id="lessonConcept"></p><div class="why-note"><span>WHY THIS HELPS</span><p id="lessonWhy"></p></div></div>
               <span class="idea-sparkle" aria-hidden="true">✧</span>
             </article>
 
@@ -104,6 +104,13 @@
               <div class="breakdown-list" id="breakdownList"></div>
             </section>
 
+            <section class="engine-details-card" id="engineDetails" hidden aria-labelledby="engineDetailsHeading">
+              <div class="section-title-row engine-details-title"><div><span class="mini-label">UNDER THE HOOD</span><h2 id="engineDetailsHeading">How the browser runs JavaScript</h2></div><span class="engine-details-mark" aria-hidden="true">JS</span></div>
+              <div class="engine-flow" aria-label="Your code goes into a JavaScript engine, which runs the instructions"><span>Your code</span><b>→</b><span>JavaScript engine</span><b>→</b><span>Actions</span></div>
+              <p class="engine-details-intro">People sometimes ask, “Is JavaScript interpreted or compiled?” The beginner-friendly answer: <strong>modern engines use a mix of both</strong>. The exact steps vary by browser.</p>
+              <div class="engine-term-grid" id="engineTermGrid"></div>
+            </section>
+
             <section class="try-card">
               <div class="try-header">
                 <div class="try-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg></div>
@@ -111,7 +118,7 @@
               </div>
               <p class="try-description" id="exampleDescription"></p>
               <div class="example-code-wrap"><pre class="example-code" aria-label="JavaScript example"><code id="exampleCode"></code></pre><button class="copy-example-button" id="copyExampleButton" type="button" aria-label="Copy example code" title="Copy example"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5"/><path d="M12.5 6V4.5A1.5 1.5 0 0 0 11 3H5.5A1.5 1.5 0 0 0 4 4.5v8A1.5 1.5 0 0 0 5.5 14H7"/></svg></button></div>
-              <button class="text-action" id="loadExampleButton" type="button"><span>↳</span> Load this example in the playground</button>
+              <p class="try-next-note"><span aria-hidden="true">↳</span> You’ll write your own code at the end of this lesson.</p>
             </section>
 
             <section class="walkthrough-card" aria-labelledby="walkthroughHeading">
@@ -124,14 +131,6 @@
               <div class="walkthrough-parts" id="walkthroughParts"></div>
             </section>
 
-            <section class="challenge-card">
-              <div class="challenge-star" aria-hidden="true">✦</div>
-              <div class="challenge-content"><div class="challenge-topline"><span class="mini-label">YOUR TURN</span><span class="challenge-time">~ 1 min</span></div><h2 id="challengeTitle">Make it yours</h2><p id="challengeDescription"></p>
-                <div class="challenge-actions"><button class="primary-small-button" id="loadChallengeButton" type="button">Open the challenge <span aria-hidden="true">↗</span></button><button class="hint-button" id="hintButton" type="button">Need a hint?</button></div>
-                <div class="hint-box" id="hintBox" hidden></div>
-              </div>
-            </section>
-
             <section class="fun-fact-card">
               <div class="fact-mascot" aria-hidden="true"><span class="mascot-orbit orbit-one"></span><span class="mascot-orbit orbit-two"></span><span class="mascot-face">✦</span></div>
               <div class="fact-copy"><div class="fact-heading"><span class="mini-label">DID YOU KNOW?</span><span class="fact-spark">✧</span></div><p id="funFact"></p></div>
@@ -142,6 +141,30 @@
               <p class="quiz-question" id="quizQuestion"></p>
               <div class="quiz-options" id="quizOptions"></div>
               <div class="quiz-feedback" id="quizFeedback" aria-live="polite"></div>
+            </section>
+
+            <section class="inline-practice-card" aria-labelledby="challengeTitle">
+              <div class="inline-practice-heading">
+                <div class="practice-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div>
+                <div class="practice-heading-copy"><span class="mini-label">YOUR TURN · TYPE IT YOURSELF</span><h2 id="challengeTitle">Try a tiny code challenge</h2></div>
+                <span class="practice-time-badge">~ 2 min</span>
+              </div>
+              <p class="practice-prompt" id="challengeDescription"></p>
+              <div class="practice-editor-shell">
+                <div class="practice-editor-bar"><span><span class="practice-js-icon">JS</span> EDIT THIS CODE</span><button class="reset-exercise-button" id="resetExerciseButton" type="button">Reset</button></div>
+                <textarea id="challengeEditor" rows="6" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" wrap="off" aria-label="Type your answer in JavaScript"></textarea>
+                <div class="practice-editor-foot">Type right in the box <span>·</span> Tab indents <span>·</span> Ctrl/⌘ + Enter runs</div>
+              </div>
+              <div class="practice-actions">
+                <button class="practice-run-button" id="runExerciseButton" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6z"/></svg><span>Run my code</span></button>
+                <button class="hint-button" id="hintButton" type="button">Need a hint?</button>
+                <details class="expected-details"><summary>Show one possible result</summary><pre id="expectedOutput"></pre></details>
+              </div>
+              <div class="hint-box" id="hintBox" hidden></div>
+              <div class="practice-console">
+                <div class="practice-console-header"><span><span class="console-prompt" aria-hidden="true">›_</span> Output</span><span class="practice-run-state" id="practiceRunState">Waiting for your code</span></div>
+                <div class="practice-console-output" id="exerciseOutput" role="log" aria-live="polite"><div class="practice-output-placeholder"><span>Type into the editor above, then press <strong>Run my code</strong>.</span><span>Your result will appear here—no playground switch needed.</span></div></div>
+              </div>
             </section>
 
             <div class="lesson-footer">

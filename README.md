@@ -1,10 +1,10 @@
 # kodelearnJS
 
-A dark, mobile-first JavaScript learning playground. The app is dependency-free and runs as a static site.
+A dark, mobile-first JavaScript learning site and live playground. It is dependency-free and runs as a static site.
 
 ## Run it locally
 
-From the repository root, start any static file server. For example:
+From the repository root, start a static file server. For example:
 
 ```sh
 python3 -m http.server 4173 --bind 0.0.0.0
@@ -14,9 +14,11 @@ Then open `http://localhost:4173`.
 
 ## What is included
 
-- Nine short JavaScript lessons with two analogies each, step-by-step and token-by-token breakdowns, syntax-highlighted examples, hints, fun facts, quizzes, and practice challenges.
-- A live JavaScript editor with a console, line numbers, keyboard indentation, and a sandboxed runner.
-- Multiple `.js` files per project. Use relative CommonJS imports such as `require("./helpers.js")` and export values with `module.exports`.
-- Local autosave, lesson progress, XP, individual file downloads, and project ZIP downloads.
+- Ten beginner lessons, with an estimated 2–3 hours for the full path.
+- Plain-language explanations of why `const` and `let` differ, plus a gentle guide to JavaScript engines, interpreters, ahead-of-time compilers, JIT compilers, and transpilers.
+- Two analogies, step-by-step explanations, highlighted code walkthroughs, fun facts, and quick checks in every lesson.
+- An inline coding task at the end of every lesson: type or complete code, run it, and see output right there. Drafts are saved on the device.
+- A separate multi-file JavaScript playground with a sandboxed runner and console. Relative CommonJS imports work with `require("./helpers.js")` and `module.exports`.
+- Individual JavaScript file downloads and project ZIP downloads.
 
-All project files are saved in the browser on the current device. No account, build step, or external JavaScript package is required.
+No account, build step, or external JavaScript package is required.

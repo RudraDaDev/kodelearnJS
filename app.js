@@ -2,310 +2,887 @@
   'use strict';
 
   const lessons = [
-    {
-      id: 'variables',
-      short: 'Variables',
-      topic: 'THE BUILDING BLOCKS',
-      title: 'Give your ideas<br class="heading-break" /> <em>a name.</em>',
-      intro: 'JavaScript needs a place to remember things. A <strong>variable</strong> is a name you give to a value, so you can use it again later.',
-      readTime: '3 min',
-      concept: 'A variable is a named container for a value. Give it a clear name, put something inside, and use that name whenever you need the value.',
-      analogies: [
-        { icon: '▣', title: 'A labeled lunchbox', text: 'Pack a snack inside and write your name on the box. The label helps you find what you packed later.' },
-        { icon: '✉', title: 'Your own mailbox', text: 'A mailbox has a name and holds a message. You can check it later—or swap the message for a new one.' }
-      ],
-      breakdown: [
-        { title: 'Choose a label.', text: 'Use <code>const</code> for a value you will not reassign, or <code>let</code> if it needs to change.' },
-        { title: 'Put a value inside.', text: 'The <code>=</code> sign means “store this value under this name.” It is assignment, not a math question.' },
-        { title: 'Use the name again.', text: 'JavaScript remembers the value, so you can read it, update it with <code>let</code>, or pass it to a function.' }
-      ],
-      exampleDescription: 'This little score starts at 10, gets 5 more points, then prints a friendly message.',
-      code: '// Your code runs in the console below ✨\nconst learner = "Ada";\nlet xp = 10;\n\nxp = xp + 5;\nconsole.log(learner + " earned " + xp + " XP!");',
-      walkthrough: {"title": "A message to the console", "code": "console.log(\"hello world\");", "parts": [{"token": "console", "meaning": "The environment-provided console object. It gives JavaScript a place to show debugging and output messages. This appears in the playground console, not as text on the webpage."}, {"token": ".log", "meaning": "A method on console. In JavaScript, console.log(...) is the usual counterpart to print() in languages like Python."}, {"token": "( ... )", "meaning": "Parentheses call the method and hold its argument: the value you want logged."}, {"token": "\"hello world\"", "meaning": "A string literal: plain text wrapped in double quotes. The quotes mark it as text; they are not part of the message."}, {"token": ";", "meaning": "A semicolon marks the end of this statement. JavaScript can often insert one automatically, but writing it makes statement boundaries clear."}]},
-      challengeTitle: 'Give a value a name',
-      challengeDescription: 'Change the player name, then make the score go up by 10. Press Run and check the console.',
-      challengeCode: '// Make this mini profile yours\nconst player = "Pixel";\nlet score = 5;\n\nscore = score + 10;\nconsole.log(player + " has " + score + " points!");',
-      hint: 'Try changing the text inside the quotes. To add 10, update the score with <code>score = score + 10;</code>.',
-      funFact: 'The word <strong>variable</strong> comes from a word meaning “changeable.” <code>const</code> keeps its name attached to one value; <code>let</code> can be reassigned.',
-      quiz: {
-        question: 'You want a score that can go up later. Which keyword fits best?',
-        options: ['const', 'let', 'change'],
-        answer: 1,
-        correct: 'You got it! <code>let</code> is for a value you plan to reassign.',
-        incorrect: 'Almost! Pick the keyword that allows a value to be reassigned.'
+  {
+    "id": "how-js-works",
+    "short": "How JavaScript runs",
+    "topic": "START HERE",
+    "title": "How does JavaScript<br class=\"heading-break\" /> <em>come to life?</em>",
+    "intro": "A computer needs instructions. JavaScript (or <strong>JS</strong>) is one language people use to write them. Your browser has a JavaScript engine: a program inside the browser that reads your JS and carries out its instructions.",
+    "readTime": "5 min",
+    "concept": "You write JavaScript. The engine checks what you wrote, works out what it means, then runs it. A typo in the rules of the language can stop the code and show an error.",
+    "why": "This makes the browser feel less mysterious: your code is the instructions, and the JavaScript engine is the part that makes them happen. The browser and JavaScript are related, but they are not the same thing.",
+    "analogies": [
+      {
+        "icon": "📖",
+        "title": "A recipe and a cook",
+        "text": "Your code is a recipe. The JavaScript engine is the cook that reads each instruction and does the work."
+      },
+      {
+        "icon": "🗣",
+        "title": "Two ways to translate",
+        "text": "One translator can read a sentence a little at a time. Another can prepare a translation first. Modern JavaScript engines use a mix of both ideas."
       }
+    ],
+    "breakdown": [
+      {
+        "title": "You write the instructions.",
+        "text": "The lines you type—like <code>console.log(\"Hi!\")</code>—are called source code. They are written for people to read."
+      },
+      {
+        "title": "The engine checks and understands them.",
+        "text": "It checks the language rules, such as matching parentheses. A rule mistake is a syntax error, so the engine cannot run that code yet."
+      },
+      {
+        "title": "The engine carries them out.",
+        "text": "It runs your instructions. Modern engines can also translate frequently used code into faster instructions while the program is running."
+      }
+    ],
+    "engineTerms": [
+      {
+        "term": "Interpreter",
+        "meaning": "Starts running a program by reading its instructions as it goes—like following a recipe one step at a time."
+      },
+      {
+        "term": "AOT compiler",
+        "meaning": "AOT means “ahead of time”—before the program runs. This compiler translates the program first, so the computer can start with prepared instructions."
+      },
+      {
+        "term": "JIT compiler",
+        "meaning": "JIT means “just in time.” Modern JavaScript engines often start running code quickly, then compile parts that are used a lot so they can run faster."
+      },
+      {
+        "term": "Transpiler",
+        "meaning": "A separate tool that changes code into another version of JavaScript before the browser runs it. For example, it can turn TypeScript into JavaScript."
+      }
+    ],
+    "exampleDescription": "This one line asks the JavaScript engine to put a message in the console below.",
+    "code": "console.log(\"hello world\");",
+    "walkthrough": {
+      "title": "A message to the console",
+      "code": "console.log(\"hello world\");",
+      "parts": [
+        {
+          "token": "console",
+          "meaning": "The environment-provided console object. It gives JavaScript a place to show messages. In this lesson, the message appears in the playground console—not on the webpage."
+        },
+        {
+          "token": ".log",
+          "meaning": "A method on console. In JavaScript, console.log(...) is the usual counterpart to print() in languages like Python. JavaScript code normally uses console.log, not print."
+        },
+        {
+          "token": "( ... )",
+          "meaning": "The parentheses call the method. The value between them is what you want it to show."
+        },
+        {
+          "token": "\"hello world\"",
+          "meaning": "A string: text wrapped in quotes. The quotes tell JavaScript “treat these letters as text”; the quote marks themselves are not printed."
+        },
+        {
+          "token": ";",
+          "meaning": "A semicolon marks the end of this instruction. JavaScript can often add one for you, but typing it makes the end clear."
+        }
+      ]
     },
-    {
-      id: 'values',
-      short: 'Kinds of values',
-      topic: 'A VALUE HAS A SHAPE',
-      title: 'Not all values<br class="heading-break" /> <em>are alike.</em>',
-      intro: 'JavaScript can remember words, numbers, yes-or-no answers, and more. Those different kinds of values are called <strong>data types</strong>.',
-      readTime: '3 min',
-      concept: 'A data type tells JavaScript what kind of value it is working with—and what kinds of things make sense to do with it.',
-      analogies: [
-        { icon: '▤', title: 'A shelf of containers', text: 'A jar holds jam, a box holds toys. Different containers are built for different kinds of things.' },
-        { icon: '🎒', title: 'A backpack with pockets', text: 'A pocket for a water bottle is different from a pocket for a map. The pocket hints at what belongs inside.' }
+    "challengeTitle": "Print your first message",
+    "challengeDescription": "Replace the blank with a short message in quotes. Then press Run here. You should see the words in the output box below.",
+    "challengeCode": "// Replace ____ with text in quotes, then run\nconsole.log(____);",
+    "hint": "Try replacing the blank with \"Hello!\". Quotes are important: they tell JavaScript that Hello is text, not a variable name.",
+    "expectedOutput": "Hello!",
+    "funFact": "The engine in Chrome is called <strong>V8</strong>. Firefox and Safari use different engines, but they all follow the JavaScript language rules.",
+    "quiz": {
+      "question": "What does a JavaScript engine do?",
+      "options": [
+        "Designs the webpage",
+        "Reads and runs JavaScript instructions",
+        "Stores your photos"
       ],
-      breakdown: [
-        { title: 'Numbers do number things.', text: 'A value like <code>42</code> is a number. You can add it, compare it, or calculate with it.' },
-        { title: 'Text lives in quotes.', text: '<code>"Hello!"</code> is a string. JavaScript treats the characters inside the quotes as text.' },
-        { title: 'Booleans answer yes or no.', text: '<code>true</code> and <code>false</code> are boolean values—handy for choices and checks.' }
-      ],
-      exampleDescription: 'Three variables, three shapes. Ask JavaScript for a value’s type with <code>typeof</code>.',
-      code: 'const score = 42;\nconst isReady = true;\nconst greeting = "Hello!";\n\nconsole.log(typeof score);\nconsole.log(typeof isReady);\nconsole.log(typeof greeting);',
-      walkthrough: {"title": "A boolean value, piece by piece", "code": "const isReady = true;", "parts": [{"token": "const", "meaning": "Declares a variable name that cannot be reassigned later."}, {"token": "isReady", "meaning": "The variable name. Choose a name that tells you what the value represents."}, {"token": "=", "meaning": "The assignment operator: put the value on the right into the name on the left. It does not mean “is equal to.”"}, {"token": "true", "meaning": "A boolean value meaning “yes” or “on.” It has no quotes; \"true\" in quotes would be text instead."}, {"token": ";", "meaning": "Marks the end of this statement. A semicolon is a helpful, consistent way to finish a line of code."}]},
-      challengeTitle: 'Make a tiny player card',
-      challengeDescription: 'Create one number, one string, and one boolean. Log each one to the console.',
-      challengeCode: 'const lives = 3;\nconst player = "Nova";\nconst hasPowerUp = false;\n\nconsole.log(lives);\nconsole.log(player);\nconsole.log(hasPowerUp);',
-      hint: 'A number needs no quotes, a string goes between quotes, and a boolean is simply <code>true</code> or <code>false</code>.',
-      funFact: 'JavaScript has a famous quirk: <code>typeof null</code> returns <code>"object"</code>. It is a very old bug kept for compatibility!',
-      quiz: {
-        question: 'Which of these is a boolean value?',
-        options: ['"false"', '0', 'false'],
-        answer: 2,
-        correct: 'Yep! The unquoted <code>false</code> is a boolean. Quoted text is a string.',
-        incorrect: 'Look for the yes-or-no value without quotation marks.'
-      }
-    },
-    {
-      id: 'strings',
-      short: 'Text & strings',
-      topic: 'WORDS IN YOUR CODE',
-      title: 'Make your code<br class="heading-break" /> <em>say something.</em>',
-      intro: 'Any piece of text in JavaScript is a <strong>string</strong>. Strings are great for names, messages, labels, and all the tiny words in your app.',
-      readTime: '3 min',
-      concept: 'Wrap text in quotes to make a string. Join strings together, or use a template literal to tuck values right into a sentence.',
-      analogies: [
-        { icon: '“ ”', title: 'A tiny quote sandwich', text: 'The quote marks are the bread; the text in the middle is the tasty filling JavaScript keeps together.' },
-        { icon: '🧵', title: 'A sentence with blanks', text: 'A template literal is like a fill-in-the-blank card. Drop a value into a blank and the sentence comes together.' }
-      ],
-      breakdown: [
-        { title: 'Put text in quotes.', text: 'Use single quotes, double quotes, or backticks: <code>"Hi"</code>, <code>\'Hi\'</code>, or <code>`Hi`</code>.' },
-        { title: 'Join text with a plus.', text: 'The <code>+</code> operator can glue strings together: <code>"Hi, " + name</code>.' },
-        { title: 'Interpolate with backticks.', text: 'Inside a template literal, write <code>${name}</code> to insert a value into the message.' }
-      ],
-      exampleDescription: 'Backticks let you blend a name into a sentence without a string of plus signs.',
-      code: 'const name = "Sam";\nconst mood = "curious";\n\nconst message = `Hey ${name}, stay ${mood}!`;\nconsole.log(message);',
-      walkthrough: {"title": "A sentence with a name inside", "code": "const message = `Hi, ${name}!`;", "parts": [{"token": "const", "meaning": "Declares a variable binding. Use it when you do not plan to point this name at a different value later."}, {"token": "message", "meaning": "The variable name that will hold the finished sentence."}, {"token": "=", "meaning": "Assigns the value on the right to the variable on the left."}, {"token": "`...`", "meaning": "Backticks create a template literal: a string that can include line breaks and inserted values."}, {"token": "${name}", "meaning": "Interpolation. JavaScript evaluates name and places its current value right here in the string."}, {"token": ";", "meaning": "Ends the variable declaration statement."}]},
-      challengeTitle: 'Write a little welcome',
-      challengeDescription: 'Make a welcome message that includes a name and a favorite color. Log the finished sentence.',
-      challengeCode: 'const name = "Kai";\nconst favoriteColor = "blue";\n\nconst welcome = `Hi ${name}! Your color is ${favoriteColor}.`;\nconsole.log(welcome);',
-      hint: 'Use backticks around the sentence, then place each variable inside <code>${ }</code>.',
-      funFact: 'A string can hold a single character or a whole book. JavaScript strings use <strong>UTF-16</strong>, which helps represent text from languages around the world.',
-      quiz: {
-        question: 'What do you need around a template literal?',
-        options: ['Backticks', 'Square brackets', 'A hashtag'],
-        answer: 0,
-        correct: 'Exactly! Backticks unlock template literals and let you insert values with <code>${value}</code>.',
-        incorrect: 'Think of the key near the number 1 on most keyboards: it looks like a tiny backtick.'
-      }
-    },
-    {
-      id: 'numbers',
-      short: 'Numbers & math',
-      topic: 'A LITTLE NUMBER MAGIC',
-      title: 'Let JavaScript<br class="heading-break" /> <em>do the math.</em>',
-      intro: 'Scores, timers, prices, steps—numbers show up everywhere. JavaScript can calculate with them using familiar math symbols.',
-      readTime: '3 min',
-      concept: 'Use number values and arithmetic operators to calculate a result. Store the result in a variable if you want to use it again.',
-      analogies: [
-        { icon: '＋', title: 'A pocket calculator', text: 'Give it two numbers and an operation. It hands you back the answer before your tea gets cold.' },
-        { icon: '🧮', title: 'A scorekeeper', text: 'A game score changes as points are added or lost. A variable can keep track of the latest total.' }
-      ],
-      breakdown: [
-        { title: 'Pick an operator.', text: '<code>+</code> adds, <code>-</code> subtracts, <code>*</code> multiplies, and <code>/</code> divides.' },
-        { title: 'JavaScript follows order.', text: 'Multiplication happens before addition, just like regular math. Use parentheses to make a step happen first.' },
-        { title: 'Keep the answer.', text: 'Save your calculation in a variable, then print it or use it in another calculation.' }
-      ],
-      exampleDescription: 'Give yourself a tiny energy boost. The math happens first; <code>console.log</code> shows the answer.',
-      code: 'const startingEnergy = 12;\nconst bonus = 4;\nconst total = startingEnergy + bonus;\n\nconsole.log(total);',
-      walkthrough: {"title": "An addition saved as a value", "code": "const total = 12 + 4;", "parts": [{"token": "const", "meaning": "Declares a variable name for the result."}, {"token": "total", "meaning": "A descriptive name that will hold the final sum."}, {"token": "=", "meaning": "Assigns the calculation’s result to total."}, {"token": "12", "meaning": "A number value. Numbers do not need quotation marks."}, {"token": "+", "meaning": "The addition operator. With two numbers, it adds them together."}, {"token": "4", "meaning": "The second number value. JavaScript calculates 12 + 4 before assigning the answer."}, {"token": ";", "meaning": "Marks the end of this statement."}]},
-      challengeTitle: 'Split the treasure',
-      challengeDescription: 'Start with 24 coins. Split them equally between 3 friends and print how many each gets.',
-      challengeCode: 'const coins = 24;\nconst friends = 3;\nconst coinsEach = coins / friends;\n\nconsole.log(coinsEach);',
-      hint: 'The divide operator is a forward slash: <code>/</code>. Make a new variable to store the result.',
-      funFact: 'The remainder operator <code>%</code> finds what is left over after division. It is perfect for checking whether a number is even!',
-      quiz: {
-        question: 'Which symbol multiplies two numbers in JavaScript?',
-        options: ['x', '*', '%'],
-        answer: 1,
-        correct: 'Correct! JavaScript uses the asterisk <code>*</code> for multiplication.',
-        incorrect: 'It is the little star-shaped symbol on your keyboard—not the letter x.'
-      }
-    },
-    {
-      id: 'conditions',
-      short: 'Make decisions',
-      topic: 'CODE WITH CHOICES',
-      title: 'Teach your code<br class="heading-break" /> <em>to choose.</em>',
-      intro: 'Your code can take different paths depending on what is true. That is how a game knows you won—or an app knows it is your turn.',
-      readTime: '4 min',
-      concept: 'An <code>if</code> statement checks a condition. If it is true, JavaScript runs one block; otherwise, it can choose another.',
-      analogies: [
-        { icon: '🚦', title: 'A traffic light', text: 'If the light is green, go. If it is red, stop. One check changes what happens next.' },
-        { icon: '☂', title: 'A weather plan', text: 'If it is raining, grab an umbrella. Otherwise, head out with your hands free.' }
-      ],
-      breakdown: [
-        { title: 'Ask a yes-or-no question.', text: 'A condition like <code>score &gt;= 10</code> evaluates to either <code>true</code> or <code>false</code>.' },
-        { title: 'Write the “if” path.', text: 'Put the code to run inside curly braces after <code>if (condition)</code>.' },
-        { title: 'Add an “else” path.', text: 'Use <code>else</code> when you want a fallback for everything that did not match.' }
-      ],
-      exampleDescription: 'Try changing the score. Watch the message switch when it crosses 10.',
-      code: 'const score = 12;\n\nif (score >= 10) {\n  console.log("Level up!");\n} else {\n  console.log("Keep playing!");\n}',
-      walkthrough: {"title": "Two paths, one condition", "code": "if (score >= 10) { console.log(\"Level up!\"); } else { console.log(\"Keep playing!\"); }", "parts": [{"token": "if", "meaning": "Starts a decision. JavaScript checks the condition next."}, {"token": "(score >= 10)", "meaning": "The condition in parentheses. It becomes true or false, and that result chooses a path."}, {"token": ">=", "meaning": "“Greater than or equal to.” This compares score with 10 and returns a boolean."}, {"token": "{ ... }", "meaning": "Curly braces group the statements that run when the if condition is true."}, {"token": "else", "meaning": "Introduces the fallback path. This block runs when the condition was false."}, {"token": "console.log(...)", "meaning": "Prints the chosen message in the console. Only one of these two messages runs."}]},
-      challengeTitle: 'Add a sunshine check',
-      challengeDescription: 'Make a variable called <code>isSunny</code>. Print one message when it is true and another when it is false.',
-      challengeCode: 'const isSunny = true;\n\nif (isSunny) {\n  console.log("Adventure time!");\n} else {\n  console.log("Cozy indoor day!");\n}',
-      hint: 'Try changing <code>true</code> to <code>false</code> and run it again. The <code>else</code> block catches the other case.',
-      funFact: 'JavaScript uses <code>===</code> for a strict equality check. It compares values without quietly converting one type into another.',
-      quiz: {
-        question: 'When does the code inside an <code>if</code> block run?',
-        options: ['Every time, no matter what', 'When its condition is true', 'Only after an else block'],
-        answer: 1,
-        correct: 'You nailed it. The condition controls whether that block runs.',
-        incorrect: 'The <code>if</code> block listens to the yes-or-no result of its condition.'
-      }
-    },
-    {
-      id: 'loops',
-      short: 'Repeat with loops',
-      topic: 'DO IT AGAIN (AND AGAIN)',
-      title: 'Repeat the fun<br class="heading-break" /> <em>without copy-paste.</em>',
-      intro: 'Need to do the same thing a few times? A <strong>loop</strong> repeats a block of code so you do not have to write every step by hand.',
-      readTime: '4 min',
-      concept: 'A loop runs a block again and again. A counter lets you know how many times it has run and when it should stop.',
-      analogies: [
-        { icon: '🔁', title: 'A playlist on repeat', text: 'The next song plays, then the next. The playlist keeps going until it reaches the end.' },
-        { icon: '🪜', title: 'Climbing the steps', text: 'Take one step, count it, then take another. Stop when you reach the top.' }
-      ],
-      breakdown: [
-        { title: 'Start with a counter.', text: 'A <code>for</code> loop often begins with a number like <code>let i = 0</code>.' },
-        { title: 'Set a stop condition.', text: 'The loop keeps running while its condition is true, such as <code>i &lt; 3</code>.' },
-        { title: 'Move the counter.', text: '<code>i++</code> adds one each round. Without a stopping point, a loop may never end!' }
-      ],
-      exampleDescription: 'This loop counts from 1 to 3. The three little parts in its header set up the repeat.',
-      code: 'for (let i = 1; i <= 3; i++) {\n  console.log(`Round ${i}!`);\n}',
-      walkthrough: {"title": "The three controls in a for loop", "code": "for (let i = 1; i <= 3; i++) { console.log(i); }", "parts": [{"token": "for", "meaning": "Starts a loop: a block of code that repeats."}, {"token": "let i = 1", "meaning": "The setup runs once. It creates a counter named i and starts it at 1."}, {"token": ";", "meaning": "Separates the loop setup from its keep-going condition."}, {"token": "i <= 3", "meaning": "The condition is checked before each round. The loop continues while i is at most 3."}, {"token": ";", "meaning": "Separates the condition from the update step."}, {"token": "i++", "meaning": "Runs after each round and adds 1 to i, so the loop eventually stops."}, {"token": "{ ... }", "meaning": "The loop body. JavaScript repeats the statements inside these braces."}]},
-      challengeTitle: 'Count down to launch',
-      challengeDescription: 'Use a loop to print 3, 2, 1, then finish with “Blast off!”',
-      challengeCode: 'for (let count = 3; count > 0; count--) {\n  console.log(count);\n}\n\nconsole.log("Blast off!");',
-      hint: 'Start the counter at 3, keep looping while it is greater than 0, and subtract one with <code>count--</code>.',
-      funFact: 'A loop inside another loop is called a <strong>nested loop</strong>. It is a handy way to visit every row and column in a grid.',
-      quiz: {
-        question: 'What does <code>i++</code> do?',
-        options: ['Subtracts one from i', 'Adds one to i', 'Stops the loop'],
-        answer: 1,
-        correct: 'Right! <code>i++</code> is a shortcut for adding one to the counter.',
-        incorrect: 'The plus signs are your clue: this shortcut moves the counter up by one.'
-      }
-    },
-    {
-      id: 'functions',
-      short: 'Build a function',
-      topic: 'YOUR OWN MINI-MACHINE',
-      title: 'Give a task<br class="heading-break" /> <em>a button.</em>',
-      intro: 'A <strong>function</strong> is a reusable block of code. Give it a name, call it when you need it, and let it handle a little task for you.',
-      readTime: '4 min',
-      concept: 'Functions package instructions into a reusable unit. They can take inputs, do a job, and hand back an output.',
-      analogies: [
-        { icon: '⚙', title: 'A tiny vending machine', text: 'Give the machine a coin, press a button, and it follows its built-in steps to hand you a snack.' },
-        { icon: '📦', title: 'A recipe card', text: 'A recipe keeps the same instructions ready. Follow the card whenever you want to make that dish again.' }
-      ],
-      breakdown: [
-        { title: 'Give the function a name.', text: 'Use <code>function greet() { ... }</code> to define the instructions once.' },
-        { title: 'Pass in what it needs.', text: 'Values inside the parentheses are called parameters. They are the function’s ingredients.' },
-        { title: 'Call it to do the task.', text: 'Write the function name with parentheses, like <code>greet("Ada")</code>. Use <code>return</code> to hand back a result.' }
-      ],
-      exampleDescription: 'This function accepts a name and returns a custom greeting. Call it whenever you need one.',
-      code: 'function greet(name) {\n  return `Hello, ${name}!`;\n}\n\nconst message = greet("Ada");\nconsole.log(message);',
-      walkthrough: {"title": "Define a reusable greeting", "code": "function greet(name) { return `Hello, ${name}!`; }", "parts": [{"token": "function", "meaning": "Keyword that defines a reusable block of JavaScript instructions."}, {"token": "greet", "meaning": "The function’s name. You use this name when you want to run it."}, {"token": "(name)", "meaning": "The parameter list. name is a placeholder for the value supplied when greet is called."}, {"token": "{ ... }", "meaning": "The function body: the instructions that run when the function is called."}, {"token": "return", "meaning": "Sends a result back to the caller and finishes this function call."}, {"token": "`Hello, ${name}!`", "meaning": "A template string that builds the greeting using the supplied name."}]},
-      challengeTitle: 'Make a happy helper',
-      challengeDescription: 'Write a function that accepts a name and returns a cheerful message. Call it with your name.',
-      challengeCode: 'function cheer(name) {\n  return `You are awesome, ${name}!`;\n}\n\nconsole.log(cheer("Coder"));',
-      hint: 'Put <code>name</code> between the parentheses. Inside the function, <code>return</code> a template literal with that name.',
-      funFact: 'In JavaScript, functions are values too. You can store one in a variable, pass it to another function, or return it as an answer.',
-      quiz: {
-        question: 'What does <code>return</code> do inside a function?',
-        options: ['Repeats the function forever', 'Hands a result back to the caller', 'Renames the function'],
-        answer: 1,
-        correct: 'Exactly. <code>return</code> hands the result back to the code that called the function.',
-        incorrect: 'Think of <code>return</code> as the function giving its answer back to you.'
-      }
-    },
-    {
-      id: 'arrays',
-      short: 'Arrays & lists',
-      topic: 'KEEP THINGS TOGETHER',
-      title: 'Make a list<br class="heading-break" /> <em>of your favorites.</em>',
-      intro: 'When you have a bunch of related values, an <strong>array</strong> keeps them together in one ordered list. Great for playlists, scores, and snack rankings.',
-      readTime: '4 min',
-      concept: 'An array is an ordered collection. Each item has a position, called an index, and the first position is number zero.',
-      analogies: [
-        { icon: '🧺', title: 'A row of little baskets', text: 'Each basket has a spot in the row. Start counting at zero to reach the first basket.' },
-        { icon: '🎧', title: 'A music queue', text: 'Songs wait in order. Add a new one to the end or jump to a song by its position.' }
-      ],
-      breakdown: [
-        { title: 'Wrap items in square brackets.', text: 'Separate each value with a comma: <code>["tea", "juice", "water"]</code>.' },
-        { title: 'Find an item by index.', text: 'Use <code>snacks[0]</code> to get the first item. Counting starts at zero, not one.' },
-        { title: 'Add to the end.', text: 'Use <code>push()</code> to add a new item, then check <code>length</code> to see how many you have.' }
-      ],
-      exampleDescription: 'This list starts with two treats. Add one more and peek at the first item.',
-      code: 'const snacks = ["mango", "popcorn"];\nsnacks.push("cookies");\n\nconsole.log(snacks[0]);\nconsole.log(snacks.length);',
-      walkthrough: {"title": "A list stored in one variable", "code": "const snacks = [\"mango\", \"popcorn\"];", "parts": [{"token": "const snacks", "meaning": "Declares a variable named snacks to hold the list."}, {"token": "=", "meaning": "Assigns the array on the right to the snacks variable."}, {"token": "[ ... ]", "meaning": "Square brackets create an array: an ordered list of items."}, {"token": "\"mango\"", "meaning": "The first item. Its index is 0 because JavaScript arrays start counting at zero."}, {"token": ",", "meaning": "Separates one item from the next."}, {"token": "\"popcorn\"", "meaning": "The second string item. Its index is 1."}, {"token": ";", "meaning": "Ends the declaration statement."}]},
-      challengeTitle: 'Build a mini playlist',
-      challengeDescription: 'Make an array of three song titles. Add a fourth song and print the last one.',
-      challengeCode: 'const songs = ["Sunbeam", "Orbit", "Daydream"];\nsongs.push("Moonlight");\n\nconsole.log(songs[3]);',
-      hint: 'The final index is one less than the array length. With four songs, the last index is <code>3</code>.',
-      funFact: 'Arrays have lots of useful built-in helpers: <code>map()</code>, <code>filter()</code>, and <code>find()</code> are a few favorites.',
-      quiz: {
-        question: 'What is the index of the first item in an array?',
-        options: ['0', '1', '-1'],
-        answer: 0,
-        correct: 'Correct! Array indexes start at <code>0</code> in JavaScript.',
-        incorrect: 'JavaScript is a zero-based language: the first spot is index zero.'
-      }
-    },
-    {
-      id: 'objects',
-      short: 'Objects & details',
-      topic: 'DESCRIBE A THING',
-      title: 'Bundle the details<br class="heading-break" /> <em>of one thing.</em>',
-      intro: 'An <strong>object</strong> groups related details under one name. Describe a character, a book, or your favorite snack with neat little key-value pairs.',
-      readTime: '4 min',
-      concept: 'An object stores properties: each property has a key (its label) and a value (the detail attached to that label).',
-      analogies: [
-        { icon: '🪪', title: 'A character card', text: 'Name, level, and favorite color all belong on one card, each next to its own label.' },
-        { icon: '🗄', title: 'A labeled filing cabinet', text: 'Each drawer has a label so you can find the exact detail you need without rummaging around.' }
-      ],
-      breakdown: [
-        { title: 'Start with curly braces.', text: 'Inside an object, write a key, a colon, then its value: <code>{ name: "Mochi" }</code>.' },
-        { title: 'Separate each detail.', text: 'Put a comma between properties. Keys are usually written as clear, readable names.' },
-        { title: 'Reach for a property.', text: 'Use dot notation like <code>pet.name</code>, or square brackets like <code>pet["name"]</code>.' }
-      ],
-      exampleDescription: 'One object keeps a pet’s details together. Dot notation fetches the name and lets us update the mood.',
-      code: 'const pet = {\n  name: "Mochi",\n  mood: "sleepy"\n};\n\npet.mood = "playful";\nconsole.log(pet.name, pet.mood);',
-      walkthrough: {"title": "A pet object’s labeled details", "code": "const pet = { name: \"Mochi\", mood: \"sleepy\" };", "parts": [{"token": "const pet", "meaning": "Declares the variable pet, which will refer to this object."}, {"token": "{ ... }", "meaning": "Curly braces create an object, a group of labeled properties."}, {"token": "name", "meaning": "A property key: the label for one detail on the pet object."}, {"token": ":", "meaning": "Connects a property key to its value. Read it as “name has the value Mochi.”"}, {"token": "\"Mochi\"", "meaning": "The value stored under the name key. It is a string because it is in quotes."}, {"token": ",", "meaning": "Separates this property from the next one, mood."}, {"token": ";", "meaning": "Ends the statement that creates the object."}]},
-      challengeTitle: 'Create a character card',
-      challengeDescription: 'Make a character object with a name and level. Log a sentence using both details.',
-      challengeCode: 'const hero = {\n  name: "Nova",\n  level: 7\n};\n\nconsole.log(`${hero.name} is level ${hero.level}!`);',
-      hint: 'Use curly braces and a comma between properties. Read the values with dot notation, like <code>hero.name</code>.',
-      funFact: 'JavaScript objects can contain other objects. That means you can model rich things—like a game world—one little detail at a time.',
-      quiz: {
-        question: 'How do you read the <code>name</code> property from <code>pet</code>?',
-        options: ['pet → name', 'pet.name', 'pet(name)'],
-        answer: 1,
-        correct: 'Yes! Dot notation reads a property from an object.',
-        incorrect: 'Use the object name, a dot, and then the property key.'
-      }
+      "answer": 1,
+      "correct": "That’s it. The engine reads your JS instructions and runs them.",
+      "incorrect": "Look for the choice that means “understand the code and carry it out.”"
     }
-  ];
+  },
+  {
+    "id": "variables",
+    "short": "Variables: names & memory",
+    "topic": "SAVE A VALUE",
+    "title": "Give information<br class=\"heading-break\" /> <em>a name.</em>",
+    "intro": "A program needs to remember things: a player’s name, a score, or a message. A <strong>variable</strong> is a name for a piece of information, so your code can use it again without rewriting the value each time.",
+    "readTime": "8 min",
+    "concept": "JavaScript gives you two common ways to make a variable: <code>const</code> and <code>let</code>. Start with <code>const</code> when you will keep the same value. Use <code>let</code> when you plan to give that name a new value later.",
+    "why": "Using the right word helps prevent mistakes. A player name usually stays the same, so use const. A score changes during a game, so use let. Quick rule: start with const; use let only when the value needs to change.",
+    "analogies": [
+      {
+        "icon": "▣",
+        "title": "A labeled lunchbox",
+        "text": "Put a snack in a box and add a label. The label lets you find the snack later without guessing which box it is in."
+      },
+      {
+        "icon": "📊",
+        "title": "A scoreboard",
+        "text": "The player’s name can stay on the board, but the score changes after each point. Use a steady label for the name and a changeable one for the score."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Use const for a value you will keep.",
+        "text": "<code>const playerName = \"Mina\";</code> gives the value a name. Later, JavaScript will stop you if you accidentally try to point <code>playerName</code> at a different value."
+      },
+      {
+        "title": "Use let when the value will change.",
+        "text": "<code>let score = 0;</code> starts the score at zero. Later, <code>score = score + 1;</code> gives that same name a new score."
+      },
+      {
+        "title": "Read the name to reuse its value.",
+        "text": "In <code>score = score + 1</code>, JavaScript gets the old score, adds one, then saves the answer back into score. The <code>=</code> means “put this on the left,” not “compare.”"
+      }
+    ],
+    "exampleDescription": "The name stays the same; the score changes. Run the example to see the new score printed.",
+    "code": "const playerName = \"Mina\";\nlet score = 0;\n\nscore = score + 1;\nconsole.log(playerName, score);",
+    "walkthrough": {
+      "title": "Why this uses both const and let",
+      "code": "const playerName = \"Mina\";\nlet score = 0;\nscore = score + 1;",
+      "parts": [
+        {
+          "token": "const",
+          "meaning": "Make a name that cannot be assigned a different value later. This is good for a player name that stays Mina."
+        },
+        {
+          "token": "playerName",
+          "meaning": "The name we chose for remembering the player’s name. Clear names make code easier to read."
+        },
+        {
+          "token": "let",
+          "meaning": "Make a name that can be updated. We choose let for score because the score will change."
+        },
+        {
+          "token": "score = score + 1",
+          "meaning": "Take the current score, add 1, and save the new answer back into score."
+        },
+        {
+          "token": "+",
+          "meaning": "With numbers, the plus sign adds. Here it adds one point."
+        },
+        {
+          "token": ";",
+          "meaning": "Finishes that instruction. You will often see a semicolon at the end of a JavaScript statement."
+        }
+      ]
+    },
+    "challengeTitle": "Give a score a starting value",
+    "challengeDescription": "Replace ____ with a starting number, such as 5. The next line adds 10. Run it here and check the final score.",
+    "challengeCode": "const player = \"Pixel\";\nlet score = ____;\nscore = score + 10;\nconsole.log(player + \" has \" + score + \" points!\");",
+    "hint": "Put a number like 5 where the blank is. We use let because the next line gives score a new value.",
+    "expectedOutput": "Pixel has 15 points!",
+    "funFact": "<code>const</code> stops you from assigning a new value to the name. With an array or object, you can still change things inside it—we will see that later.",
+    "quiz": {
+      "question": "A game score starts at 0 and later becomes 1. Which word should create score?",
+      "options": [
+        "const, because scores never change",
+        "let, because the score gets a new value",
+        "print, because it shows the score"
+      ],
+      "answer": 1,
+      "correct": "Right. The score changes, so let gives the name permission to get a new value.",
+      "incorrect": "Ask: will this name need a different value later? A changing score does."
+    }
+  },
+  {
+    "id": "values",
+    "short": "Kinds of values",
+    "topic": "NUMBERS, WORDS & YES/NO",
+    "title": "Not all values<br class=\"heading-break\" /> <em>are alike.</em>",
+    "intro": "JavaScript can remember numbers, words, and yes-or-no answers. These are different <strong>kinds of values</strong>. The kind matters because it changes what JavaScript does with the value.",
+    "readTime": "6 min",
+    "concept": "For example, <code>5 + 2</code> is the number 7. But <code>\"5\" + 2</code> joins text and becomes <code>\"52\"</code>. Quotes make 5 into text, not a number.",
+    "why": "Knowing the kind of a value helps you avoid confusing results. Use numbers to count, text to show words, and true/false to remember whether something is on or off.",
+    "analogies": [
+      {
+        "icon": "🥫",
+        "title": "Different containers",
+        "text": "A jar, a shoebox, and a light switch hold different kinds of things. A value’s kind tells you how to use it."
+      },
+      {
+        "icon": "🏷",
+        "title": "Different labels",
+        "text": "A label that says “number” helps you add. A label that says “text” means JavaScript should keep the letters together."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "A number can be counted or calculated.",
+        "text": "Examples: <code>42</code>, <code>3.5</code>, and <code>-1</code>. Do not put quotes around a number if you want to do math with it."
+      },
+      {
+        "title": "A string is text.",
+        "text": "Examples: <code>\"Hello\"</code> or <code>\"42\"</code>. The quote marks say “these are characters,” even when they look like a number."
+      },
+      {
+        "title": "A boolean is a yes-or-no answer.",
+        "text": "JavaScript writes these two answers as <code>true</code> and <code>false</code>, without quotes. They are useful for choices, such as “is the door open?”"
+      }
+    ],
+    "exampleDescription": "Run this to see JavaScript tell you the kind of each value. typeof is a question you can ask about a value.",
+    "code": "const score = 42;\nconst isReady = true;\nconst greeting = \"Hello!\";\n\nconsole.log(typeof score);\nconsole.log(typeof isReady);\nconsole.log(typeof greeting);",
+    "walkthrough": {
+      "title": "A boolean value, piece by piece",
+      "code": "const isReady = true;",
+      "parts": [
+        {
+          "token": "const",
+          "meaning": "Creates a name for a value that we do not plan to replace."
+        },
+        {
+          "token": "isReady",
+          "meaning": "The name. It reads like a question: “is ready?”"
+        },
+        {
+          "token": "=",
+          "meaning": "Means “store the value on the right under this name.”"
+        },
+        {
+          "token": "true",
+          "meaning": "A yes answer, called a boolean. Without quotes it is a true/false value; \"true\" in quotes is just text."
+        },
+        {
+          "token": ";",
+          "meaning": "Marks the end of this instruction."
+        }
+      ]
+    },
+    "challengeTitle": "Pick the right kind of value",
+    "challengeDescription": "Replace ____ with true or false (no quotes). Then run the code and read the three types in the output.",
+    "challengeCode": "const lives = 3;\nconst isReady = ____;\nconst player = \"Nova\";\n\nconsole.log(typeof lives);\nconsole.log(typeof isReady);\nconsole.log(typeof player);",
+    "hint": "A yes-or-no answer is true or false, without quote marks. The word typeof asks JavaScript what kind of value it sees.",
+    "expectedOutput": "number\nboolean\nstring",
+    "funFact": "JavaScript has one famous old quirk: <code>typeof null</code> says <code>\"object\"</code>. That odd result stayed so older programs would keep working.",
+    "quiz": {
+      "question": "Which one is a yes-or-no value, not text?",
+      "options": [
+        "\"false\"",
+        "0",
+        "false"
+      ],
+      "answer": 2,
+      "correct": "Yes. false without quotes is a boolean. With quotes it would be text.",
+      "incorrect": "Look for the word with no quotes around it. Quotes turn it into text."
+    }
+  },
+  {
+    "id": "strings",
+    "short": "Text & strings",
+    "topic": "WORDS IN YOUR CODE",
+    "title": "Make your code<br class=\"heading-break\" /> <em>say something.</em>",
+    "intro": "Whenever your code needs words—a name, a welcome, or a joke—you use a <strong>string</strong>. A string is text wrapped in quote marks.",
+    "readTime": "6 min",
+    "concept": "Use single quotes or double quotes for plain text. Use backticks when you want to insert a variable into a sentence.",
+    "why": "Strings let your program talk to people. If a name changes, inserting the name from a variable is easier than rewriting the whole message.",
+    "analogies": [
+      {
+        "icon": "“ ”",
+        "title": "A quote sandwich",
+        "text": "The quote marks are like the two slices of bread. They show JavaScript where the text begins and ends."
+      },
+      {
+        "icon": "✍",
+        "title": "A fill-in-the-blank card",
+        "text": "Backticks let you write a sentence with a blank. JavaScript fills the blank with a value such as someone’s name."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Put plain text inside quotes.",
+        "text": "<code>\"Hi\"</code> and <code>'Hi'</code> are strings. The quote marks are part of the code, not usually part of the message."
+      },
+      {
+        "title": "Use + to join text.",
+        "text": "<code>\"Hi, \" + name</code> glues the greeting to the value saved in name. If name is Kai, the result is <code>Hi, Kai</code>."
+      },
+      {
+        "title": "Use backticks for a fill-in sentence.",
+        "text": "With backticks, <code>`Hi, ${name}`</code> puts the value of name right where <code>${name}</code> appears."
+      }
+    ],
+    "exampleDescription": "name holds the word Sam. The backticks let us put Sam into the welcome sentence.",
+    "code": "const name = \"Sam\";\nconst message = `Hello, ${name}!`;\nconsole.log(message);",
+    "walkthrough": {
+      "title": "A sentence with a name inside",
+      "code": "const message = `Hi, ${name}!`;",
+      "parts": [
+        {
+          "token": "const message",
+          "meaning": "Make a name called message to remember the finished sentence."
+        },
+        {
+          "token": "=",
+          "meaning": "Store the sentence on the right under the name on the left."
+        },
+        {
+          "token": "`...`",
+          "meaning": "Backticks mark a template string. It is still text, but it can have values inserted into it."
+        },
+        {
+          "token": "${name}",
+          "meaning": "Use the current value of name in this spot. If name is Mina, the sentence says “Hi, Mina!”"
+        },
+        {
+          "token": ";",
+          "meaning": "Finishes the instruction."
+        }
+      ]
+    },
+    "challengeTitle": "Fill in a name",
+    "challengeDescription": "Replace ____ with the variable name. Keep the ${ } marks. Run it to see the name appear in the message.",
+    "challengeCode": "const name = \"Kai\";\nconst message = `Hello, ${____}!`;\nconsole.log(message);",
+    "hint": "The name of the variable is name. The finished part should look like ${name}.",
+    "expectedOutput": "Hello, Kai!",
+    "funFact": "Text between quotes is a string even if it looks like a number. For example, <code>\"42\"</code> is text, while <code>42</code> is a number.",
+    "quiz": {
+      "question": "What marks the start and end of a template string?",
+      "options": [
+        "Backticks: ` `",
+        "Square brackets: [ ]",
+        "A hashtag: #"
+      ],
+      "answer": 0,
+      "correct": "Right. Backticks make a template string, where ${name} can insert a value.",
+      "incorrect": "Look for the small slanted quote mark, usually near the number 1 key."
+    }
+  },
+  {
+    "id": "numbers",
+    "short": "Numbers & math",
+    "topic": "ADD, SUBTRACT & MORE",
+    "title": "Let JavaScript<br class=\"heading-break\" /> <em>do the math.</em>",
+    "intro": "Scores, timers, prices, and steps are numbers. JavaScript can do the arithmetic for you and remember the answer.",
+    "readTime": "6 min",
+    "concept": "Use <code>+</code> to add, <code>-</code> to subtract, <code>*</code> to multiply, and <code>/</code> to divide. Parentheses work like they do in school math: they tell JavaScript what to calculate first.",
+    "why": "A computer is good at repeating calculations without losing track. Store a result in a variable so you can print it, compare it, or use it in the next calculation.",
+    "analogies": [
+      {
+        "icon": "🧮",
+        "title": "A pocket calculator",
+        "text": "Give it two numbers and an operation, and it returns the answer. JavaScript can be your calculator inside an app."
+      },
+      {
+        "icon": "🏆",
+        "title": "A scorekeeper",
+        "text": "Start with a score, add points after a round, and keep the new total for the next round."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Numbers do not need quotes.",
+        "text": "Write <code>12</code>, not <code>\"12\"</code>, when you want to do number math."
+      },
+      {
+        "title": "Choose the math sign.",
+        "text": "<code>+</code> means add, <code>-</code> means subtract, <code>*</code> means times, and <code>/</code> means divide."
+      },
+      {
+        "title": "Save the answer with a name.",
+        "text": "In <code>const total = 12 + 4;</code>, JavaScript calculates 12 plus 4, then stores 16 under total."
+      }
+    ],
+    "exampleDescription": "There are 12 energy points and a bonus of 4. JavaScript adds them, then shows the total.",
+    "code": "const energy = 12;\nconst bonus = 4;\nconst total = energy + bonus;\nconsole.log(total);",
+    "walkthrough": {
+      "title": "An addition saved as a value",
+      "code": "const total = 12 + 4;",
+      "parts": [
+        {
+          "token": "const",
+          "meaning": "Make a name that will remember the answer."
+        },
+        {
+          "token": "total",
+          "meaning": "The name we chose for the answer."
+        },
+        {
+          "token": "=",
+          "meaning": "Store the answer from the right side under total."
+        },
+        {
+          "token": "12",
+          "meaning": "The first number. No quotes means it can be used in math."
+        },
+        {
+          "token": "+",
+          "meaning": "The plus sign adds these two numbers."
+        },
+        {
+          "token": "4",
+          "meaning": "The second number. JavaScript works out 12 + 4 before it saves total."
+        },
+        {
+          "token": ";",
+          "meaning": "Finishes the instruction."
+        }
+      ]
+    },
+    "challengeTitle": "Share the coins",
+    "challengeDescription": "Replace ____ with the math sign that splits 24 coins evenly between 3 friends. Then run the code.",
+    "challengeCode": "const coins = 24;\nconst friends = 3;\nconst each = coins ____ friends;\nconsole.log(each);",
+    "hint": "The sign for division is a forward slash: /.",
+    "expectedOutput": "8",
+    "funFact": "The percent sign <code>%</code> gives the remainder after a division. For example, <code>7 % 2</code> leaves 1.",
+    "quiz": {
+      "question": "Which sign means multiply in JavaScript?",
+      "options": [
+        "x",
+        "*",
+        "/"
+      ],
+      "answer": 1,
+      "correct": "Correct. Use the asterisk * for multiplication.",
+      "incorrect": "It is the star-shaped sign, not the letter x."
+    }
+  },
+  {
+    "id": "conditions",
+    "short": "Make decisions",
+    "topic": "IF THIS, THEN THAT",
+    "title": "Teach your code<br class=\"heading-break\" /> <em>to choose.</em>",
+    "intro": "Apps make choices all the time: a game checks whether you won, and a sign-in page checks whether your password is right. JavaScript can choose what to do with <strong>if</strong> and <strong>else</strong>.",
+    "readTime": "7 min",
+    "concept": "An if statement asks a yes-or-no question. If the answer is yes (true), one block runs. Otherwise (false), an optional else block can run instead.",
+    "why": "Without choices, code would do the same thing every time. Conditions let your program react to the player, a score, or a button click.",
+    "analogies": [
+      {
+        "icon": "🚦",
+        "title": "A traffic light",
+        "text": "If the light is green, go. Else—if it is not green—wait. The answer changes what you do."
+      },
+      {
+        "icon": "☂",
+        "title": "A rainy-day plan",
+        "text": "If it is raining, take an umbrella. Otherwise, go without one."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Ask a question with a comparison.",
+        "text": "For example, <code>score >= 10</code> asks “is score at least 10?” The answer will be true or false."
+      },
+      {
+        "title": "Put the “yes” code in braces.",
+        "text": "Write <code>if (score >= 10) { ... }</code>. The braces hold the instructions to run when the answer is true."
+      },
+      {
+        "title": "Add an else for the other answer.",
+        "text": "<code>else</code> means “if that was not true, do this instead.” It is optional if you do not need a second path."
+      }
+    ],
+    "exampleDescription": "Try changing the score to a number below 10. The message will change because the answer to the question changes.",
+    "code": "const score = 12;\n\nif (score >= 10) {\n  console.log(\"Level up!\");\n} else {\n  console.log(\"Keep playing!\");\n}",
+    "walkthrough": {
+      "title": "Two paths, one question",
+      "code": "if (score >= 10) { console.log(\"Level up!\"); } else { console.log(\"Keep playing!\"); }",
+      "parts": [
+        {
+          "token": "if",
+          "meaning": "Starts a choice. JavaScript checks the question right after it."
+        },
+        {
+          "token": "score >= 10",
+          "meaning": "The question: is score greater than or equal to 10? It has a true or false answer."
+        },
+        {
+          "token": ">=",
+          "meaning": "Means “greater than or equal to.” This compares two numbers."
+        },
+        {
+          "token": "{ ... }",
+          "meaning": "The braces hold the code for the true path."
+        },
+        {
+          "token": "else",
+          "meaning": "Starts the other path, used when the question is false."
+        },
+        {
+          "token": "console.log(...)",
+          "meaning": "Shows the message for the path JavaScript chose."
+        }
+      ]
+    },
+    "challengeTitle": "Finish the score check",
+    "challengeDescription": "Replace ____ with a comparison sign that means “10 or more.” Run it to see which message appears.",
+    "challengeCode": "const score = 12;\nif (score ____ 10) {\n  console.log(\"Level up!\");\n} else {\n  console.log(\"Keep playing!\");\n}",
+    "hint": "Use >=. It means greater than OR equal to. Do not use a single = here—that stores a value instead of asking a question.",
+    "expectedOutput": "Level up!",
+    "funFact": "JavaScript uses <code>===</code> to ask “are these exactly the same?” A single <code>=</code> stores a value; three equals signs compare values.",
+    "quiz": {
+      "question": "When does the code inside an if block run?",
+      "options": [
+        "When its question is true",
+        "Every time",
+        "Only when the page closes"
+      ],
+      "answer": 0,
+      "correct": "Yes. The if block runs only when its question is true.",
+      "incorrect": "The if block depends on the yes-or-no answer to its question."
+    }
+  },
+  {
+    "id": "loops",
+    "short": "Repeat with loops",
+    "topic": "DO IT AGAIN",
+    "title": "Repeat the fun<br class=\"heading-break\" /> <em>without copy-paste.</em>",
+    "intro": "If you need to do the same small job many times, you could copy and paste the code. A <strong>loop</strong> is a better way: it repeats the code for you.",
+    "readTime": "8 min",
+    "concept": "A for loop has a start, a question that decides whether to keep going, and an update that moves it toward stopping.",
+    "why": "Loops save you from writing the same instruction over and over. They are useful for counting, showing each item in a list, or repeating a game action.",
+    "analogies": [
+      {
+        "icon": "🔁",
+        "title": "A song on repeat",
+        "text": "The song plays, then starts again. The repeat setting keeps going until you turn it off."
+      },
+      {
+        "icon": "🪜",
+        "title": "Counting steps",
+        "text": "Take a step, count it, and take another. Stop when you reach the top."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Set up a counter.",
+        "text": "<code>let i = 1</code> creates a number called i. It starts at 1 so we can count each round."
+      },
+      {
+        "title": "Say when to stop.",
+        "text": "<code>i <= 3</code> means “keep going while i is 3 or less.” JavaScript checks this before each round."
+      },
+      {
+        "title": "Move closer to the stop point.",
+        "text": "<code>i++</code> adds one after each round. When i becomes 4, the question is false and the loop ends."
+      }
+    ],
+    "exampleDescription": "This prints Round 1, Round 2, and Round 3. Change the stop number and run it again.",
+    "code": "for (let i = 1; i <= 3; i++) {\n  console.log(`Round ${i}`);\n}",
+    "walkthrough": {
+      "title": "The three controls in a for loop",
+      "code": "for (let i = 1; i <= 3; i++) { console.log(i); }",
+      "parts": [
+        {
+          "token": "for",
+          "meaning": "Starts a loop that repeats its body."
+        },
+        {
+          "token": "let i = 1",
+          "meaning": "The starting step. Create a counter i and set it to 1. This happens once."
+        },
+        {
+          "token": ";",
+          "meaning": "The first semicolon separates the starting step from the question."
+        },
+        {
+          "token": "i <= 3",
+          "meaning": "The question checked before each round. Keep going while i is 3 or less."
+        },
+        {
+          "token": ";",
+          "meaning": "The second semicolon separates the question from the update."
+        },
+        {
+          "token": "i++",
+          "meaning": "The update. Add one to i after each round so the loop can eventually stop."
+        },
+        {
+          "token": "{ ... }",
+          "meaning": "The loop body. These instructions run once each round."
+        }
+      ]
+    },
+    "challengeTitle": "Finish the counting loop",
+    "challengeDescription": "Replace ____ so the loop prints 1, then 2, then 3. If the question stays true forever, a loop can get stuck—so keep the stopping point.",
+    "challengeCode": "for (let i = 1; i ____ 3; i++) {\n  console.log(i);\n}",
+    "hint": "Use <=, which means “less than or equal to.” The loop stops after i grows to 4.",
+    "expectedOutput": "1\n2\n3",
+    "funFact": "A loop that never reaches its stop point is called an infinite loop. The browser may appear frozen because it is busy repeating forever.",
+    "quiz": {
+      "question": "What does i++ do after one round of this loop?",
+      "options": [
+        "Adds 1 to i",
+        "Turns i into text",
+        "Stops the program"
+      ],
+      "answer": 0,
+      "correct": "Exactly. i++ adds one, helping the loop count toward its stop point.",
+      "incorrect": "The two plus signs mean increase the number by one."
+    }
+  },
+  {
+    "id": "functions",
+    "short": "Build a function",
+    "topic": "SAVE A SET OF STEPS",
+    "title": "Give a task<br class=\"heading-break\" /> <em>a name.</em>",
+    "intro": "A <strong>function</strong> is a small set of instructions that you can save under a name and use whenever you need it. Write the steps once, then ask the function to do them.",
+    "readTime": "8 min",
+    "concept": "A function can receive information, do a job, and give an answer back. The names inside its parentheses are temporary labels for the information it receives.",
+    "why": "Functions keep code from being copied everywhere. If you need the same job in ten places, call one function ten times instead of writing the steps ten times.",
+    "analogies": [
+      {
+        "icon": "⚙",
+        "title": "A button on a machine",
+        "text": "Press the button and the machine follows the steps it already knows. Call a function and it follows its saved steps."
+      },
+      {
+        "icon": "🍲",
+        "title": "A recipe card",
+        "text": "A recipe is written once. You can follow it again, perhaps with a different name or ingredient each time."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Define the steps.",
+        "text": "<code>function greet(name) { ... }</code> creates a function named greet. Defining it saves the instructions; it does not run them yet."
+      },
+      {
+        "title": "Give it information.",
+        "text": "The word <code>name</code> in the parentheses is a parameter—a temporary name for information the function receives."
+      },
+      {
+        "title": "Call it and get an answer.",
+        "text": "<code>greet(\"Mina\")</code> runs the function. <code>return</code> sends the answer back so another line can use it."
+      }
+    ],
+    "exampleDescription": "First we define greet. Then we call it with the name Ada and print the answer it returns.",
+    "code": "function greet(name) {\n  return `Hello, ${name}!`;\n}\n\nconst message = greet(\"Ada\");\nconsole.log(message);",
+    "walkthrough": {
+      "title": "Define a reusable greeting",
+      "code": "function greet(name) { return `Hello, ${name}!`; }",
+      "parts": [
+        {
+          "token": "function",
+          "meaning": "Tells JavaScript that we are defining a function."
+        },
+        {
+          "token": "greet",
+          "meaning": "The function’s name. We use this name later to run the saved steps."
+        },
+        {
+          "token": "(name)",
+          "meaning": "The information the function can receive. name is a temporary label for it."
+        },
+        {
+          "token": "{ ... }",
+          "meaning": "The instructions that belong to this function."
+        },
+        {
+          "token": "return",
+          "meaning": "Gives an answer back to the code that called the function."
+        },
+        {
+          "token": "`Hello, ${name}!`",
+          "meaning": "Builds a sentence by putting the received name into the template string."
+        }
+      ]
+    },
+    "challengeTitle": "Make a double helper",
+    "challengeDescription": "Replace ____ with the math sign for times. The function should return twice the number. Run it to see double(4).",
+    "challengeCode": "function double(number) {\n  return number ____ 2;\n}\nconsole.log(double(4));",
+    "hint": "The multiplication sign in JavaScript is *. The function gives its answer back with return.",
+    "expectedOutput": "8",
+    "funFact": "A function can return a value without printing it. Printing shows something in the console; return hands a value back so the rest of your code can use it.",
+    "quiz": {
+      "question": "What does return do in a function?",
+      "options": [
+        "Shows a message on the webpage",
+        "Gives an answer back to the code that called the function",
+        "Repeats the function"
+      ],
+      "answer": 1,
+      "correct": "Yes. return gives the function’s answer back to its caller.",
+      "incorrect": "Think of return as handing the answer back—not printing it."
+    }
+  },
+  {
+    "id": "arrays",
+    "short": "Arrays & lists",
+    "topic": "KEEP A LIST",
+    "title": "Put favorites<br class=\"heading-break\" /> <em>in a list.</em>",
+    "intro": "When you have several related things—songs, snacks, or scores—an <strong>array</strong> keeps them together in an ordered list.",
+    "readTime": "8 min",
+    "concept": "Write an array with square brackets and put commas between its items. Each item has a numbered position called an index. The first index is 0.",
+    "why": "A list lets you work with many things using one name. You can add a new item, ask how many there are, or get an item by its position.",
+    "analogies": [
+      {
+        "icon": "🎧",
+        "title": "A music queue",
+        "text": "Songs are lined up in order. Add another song at the end or pick one by its spot in the queue."
+      },
+      {
+        "icon": "🧺",
+        "title": "A row of baskets",
+        "text": "Each basket has a place in the row. Computers start counting places at zero, so the first basket is spot 0."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Use square brackets.",
+        "text": "<code>[\"mango\", \"popcorn\"]</code> is a list with two text items. The commas separate the items."
+      },
+      {
+        "title": "Remember that counting starts at 0.",
+        "text": "<code>snacks[0]</code> gets the first item. <code>snacks[1]</code> gets the second."
+      },
+      {
+        "title": "Add an item with push.",
+        "text": "<code>snacks.push(\"cookies\")</code> adds cookies to the end. <code>snacks.length</code> tells you how many items are in the list."
+      }
+    ],
+    "exampleDescription": "push adds cookies to the end of the list. Index 0 still points to the first snack.",
+    "code": "const snacks = [\"mango\", \"popcorn\"];\nsnacks.push(\"cookies\");\nconsole.log(snacks[0]);\nconsole.log(snacks.length);",
+    "walkthrough": {
+      "title": "A list stored in one variable",
+      "code": "const snacks = [\"mango\", \"popcorn\"];",
+      "parts": [
+        {
+          "token": "const snacks",
+          "meaning": "One name, snacks, holds the whole list."
+        },
+        {
+          "token": "=",
+          "meaning": "Stores the list on the right under the name snacks."
+        },
+        {
+          "token": "[ ... ]",
+          "meaning": "Square brackets mean “this is an array,” or list."
+        },
+        {
+          "token": "\"mango\"",
+          "meaning": "The first item. Its position number (index) is 0."
+        },
+        {
+          "token": ",",
+          "meaning": "A comma separates one item from the next."
+        },
+        {
+          "token": "\"popcorn\"",
+          "meaning": "The second item. Its index is 1."
+        },
+        {
+          "token": ";",
+          "meaning": "Finishes the statement."
+        }
+      ]
+    },
+    "challengeTitle": "Add one more song",
+    "challengeDescription": "Replace ____ with the array method that adds something to the end. Then print the item at index 3.",
+    "challengeCode": "const songs = [\"Sunbeam\", \"Orbit\", \"Daydream\"];\nsongs.____(\"Moonlight\");\nconsole.log(songs[3]);",
+    "hint": "The method is called push. The first song is at index 0, so the fourth one is at index 3.",
+    "expectedOutput": "Moonlight",
+    "funFact": "Arrays have handy built-in methods such as <code>push</code> (add to the end) and <code>pop</code> (remove the last item).",
+    "quiz": {
+      "question": "What number is the first item’s index?",
+      "options": [
+        "0",
+        "1",
+        "-1"
+      ],
+      "answer": 0,
+      "correct": "Correct. JavaScript arrays start counting at index 0.",
+      "incorrect": "JavaScript starts array positions at zero, not one."
+    }
+  },
+  {
+    "id": "objects",
+    "short": "Objects & details",
+    "topic": "DESCRIBE ONE THING",
+    "title": "Keep a thing’s details<br class=\"heading-break\" /> <em>together.</em>",
+    "intro": "An <strong>object</strong> is a group of labeled details about one thing. A pet might have a name, a mood, and an age—all kept together under one name.",
+    "readTime": "8 min",
+    "concept": "Each detail has a label (called a key) and information beside it (called a value). You can read or change a detail by using its label.",
+    "why": "Objects keep related information together. Instead of separate names like petName, petMood, and petAge, put the details in one pet object.",
+    "analogies": [
+      {
+        "icon": "🪪",
+        "title": "A character card",
+        "text": "A card can list a character’s name, level, and favorite color. Each label tells you what the detail means."
+      },
+      {
+        "icon": "🗄",
+        "title": "A labeled drawer",
+        "text": "A drawer marked “mood” helps you find the mood. An object’s keys are labels for its details."
+      }
+    ],
+    "breakdown": [
+      {
+        "title": "Start with curly braces.",
+        "text": "Curly braces <code>{ }</code> mark the beginning and end of an object."
+      },
+      {
+        "title": "Write a label, colon, and value.",
+        "text": "In <code>name: \"Mochi\"</code>, name is the label and \"Mochi\" is the value stored under it. A comma separates it from the next detail."
+      },
+      {
+        "title": "Use a dot to reach a detail.",
+        "text": "<code>pet.name</code> means “get the name detail from pet.” You can update it with <code>pet.mood = \"playful\"</code>."
+      }
+    ],
+    "exampleDescription": "The pet object keeps a name and mood together. The dot lets us change the mood and then read the name.",
+    "code": "const pet = {\n  name: \"Mochi\",\n  mood: \"sleepy\"\n};\n\npet.mood = \"playful\";\nconsole.log(pet.name, pet.mood);",
+    "walkthrough": {
+      "title": "A pet’s labeled details",
+      "code": "const pet = { name: \"Mochi\", mood: \"sleepy\" };",
+      "parts": [
+        {
+          "token": "const pet",
+          "meaning": "The name pet will hold this group of details."
+        },
+        {
+          "token": "{ ... }",
+          "meaning": "Curly braces create the object and hold its details."
+        },
+        {
+          "token": "name",
+          "meaning": "A key: the label for the first detail."
+        },
+        {
+          "token": ":",
+          "meaning": "The colon connects the label to its value. Read it as “name is Mochi.”"
+        },
+        {
+          "token": "\"Mochi\"",
+          "meaning": "The value stored for name. Quotes make it text."
+        },
+        {
+          "token": ",",
+          "meaning": "Separates the name detail from the mood detail."
+        },
+        {
+          "token": ";",
+          "meaning": "Finishes the instruction that creates the object."
+        }
+      ]
+    },
+    "challengeTitle": "Change the pet’s mood",
+    "challengeDescription": "Type two lines: change pet.mood to \"playful\", then print pet.mood. Run your code to see the new value.",
+    "challengeCode": "const pet = { name: \"Mochi\", mood: \"sleepy\" };\n// Type your two lines below this comment\n",
+    "hint": "Write pet.mood = \"playful\"; to change the detail. Then use console.log(pet.mood); to show it.",
+    "expectedOutput": "playful",
+    "funFact": "Arrays are objects too in JavaScript. They have special list behaviors, but they can also have properties such as <code>length</code>.",
+    "quiz": {
+      "question": "How do you read the name detail from pet?",
+      "options": [
+        "pet.name",
+        "pet(name)",
+        "pet → name"
+      ],
+      "answer": 0,
+      "correct": "Yes. A dot followed by the detail label reads that property.",
+      "incorrect": "Use the object name, a dot, then the detail label."
+    }
+  }
+];
+
+  const defaultMainCode = lessons.find((lesson) => lesson.id === 'variables').code;
 
   const STARTER_FILES = [
     {
       name: 'main.js',
-      content: lessons[0].code,
-      starter: lessons[0].code
+      content: defaultMainCode,
+      starter: defaultMainCode
     },
     {
       name: 'helpers.js',
@@ -326,6 +903,7 @@
     xp: 0,
     quizAnswers: {},
     quizSolved: [],
+    exerciseDrafts: {},
     files: clone(STARTER_FILES),
     activeFile: 'main.js',
     mode: 'learn'
@@ -347,12 +925,20 @@
       const completed = Array.isArray(saved.completed) ? saved.completed.filter((id) => lessons.some((lesson) => lesson.id === id)) : [];
       const quizAnswers = saved.quizAnswers && typeof saved.quizAnswers === 'object' ? saved.quizAnswers : {};
       const quizSolved = Array.isArray(saved.quizSolved) ? saved.quizSolved.filter((id) => lessons.some((lesson) => lesson.id === id)) : [];
+      const exerciseDrafts = {};
+      if (saved.exerciseDrafts && typeof saved.exerciseDrafts === 'object') {
+        for (const lesson of lessons) {
+          const draft = saved.exerciseDrafts[lesson.id];
+          if (typeof draft === 'string') exerciseDrafts[lesson.id] = draft.slice(0, 50000);
+        }
+      }
       return {
         lessonIndex: safeLessonIndex,
         completed: [...new Set(completed)],
         xp: Number.isFinite(saved.xp) ? Math.max(0, Math.floor(saved.xp)) : 0,
         quizAnswers,
         quizSolved: [...new Set(quizSolved)],
+        exerciseDrafts,
         files: files.length ? files : clone(STARTER_FILES),
         activeFile,
         mode: saved.mode === 'playground' ? 'playground' : 'learn'
@@ -368,7 +954,11 @@
   let modalMode = 'add';
   let hintVisibleFor = '';
   let currentRunToken = '';
+  let currentRunTarget = null;
+  let renderedLessonId = null;
   let runButtonTimer = null;
+  let exerciseRunTimer = null;
+  let exerciseOutputCount = 0;
 
   const els = {
     app: $('.main-area'),
@@ -383,6 +973,9 @@
     lessonTitle: $('#lessonTitle'),
     lessonIntro: $('#lessonIntro'),
     lessonConcept: $('#lessonConcept'),
+    lessonWhy: $('#lessonWhy'),
+    engineDetails: $('#engineDetails'),
+    engineTermGrid: $('#engineTermGrid'),
     analogyGrid: $('#analogyGrid'),
     breakdownList: $('#breakdownList'),
     exampleDescription: $('#exampleDescription'),
@@ -392,6 +985,12 @@
     walkthroughParts: $('#walkthroughParts'),
     challengeTitle: $('#challengeTitle'),
     challengeDescription: $('#challengeDescription'),
+    challengeEditor: $('#challengeEditor'),
+    expectedOutput: $('#expectedOutput'),
+    exerciseOutput: $('#exerciseOutput'),
+    practiceRunState: $('#practiceRunState'),
+    runExerciseButton: $('#runExerciseButton'),
+    resetExerciseButton: $('#resetExerciseButton'),
     hintButton: $('#hintButton'),
     hintBox: $('#hintBox'),
     funFact: $('#funFact'),
@@ -586,6 +1185,14 @@
 
   function renderLesson() {
     const lesson = activeLesson();
+    const lessonChanged = renderedLessonId !== lesson.id;
+    if (lessonChanged) {
+      currentRunToken = '';
+      currentRunTarget = null;
+      setRunButtonRunning(false);
+      setExerciseRunning(false);
+      renderedLessonId = lesson.id;
+    }
     const step = String(state.lessonIndex + 1).padStart(2, '0');
     els.breadcrumbStep.textContent = `STEP ${step}`;
     els.readTime.textContent = lesson.readTime;
@@ -593,6 +1200,9 @@
     els.lessonTitle.innerHTML = lesson.title;
     els.lessonIntro.innerHTML = lesson.intro;
     els.lessonConcept.innerHTML = lesson.concept;
+    els.lessonWhy.textContent = lesson.why;
+    els.engineDetails.hidden = !lesson.engineTerms;
+    els.engineTermGrid.innerHTML = (lesson.engineTerms || []).map((item, index) => `<article class="engine-term-card"><span class="engine-term-number">${String(index + 1).padStart(2, '0')}</span><div><strong>${escapeHTML(item.term)}</strong><p>${escapeHTML(item.meaning)}</p></div></article>`).join('');
     els.analogyGrid.innerHTML = lesson.analogies.map((analogy) => `<article class="analogy-card"><div class="analogy-symbol" aria-hidden="true">${analogy.icon}</div><div class="analogy-copy"><strong>${analogy.title}</strong><p>${analogy.text}</p></div></article>`).join('');
     els.breakdownList.innerHTML = lesson.breakdown.map((item, index) => `<article class="breakdown-item"><div class="breakdown-number">${String(index + 1).padStart(2, '0')}</div><div class="breakdown-copy"><strong>${item.title}</strong><p>${item.text}</p></div></article>`).join('');
     els.exampleDescription.innerHTML = lesson.exampleDescription;
@@ -601,11 +1211,18 @@
     els.walkthroughCode.innerHTML = highlightCode(lesson.walkthrough.code);
     els.walkthroughParts.innerHTML = lesson.walkthrough.parts.map((part, index) => `<article class="walkthrough-part"><div class="walkthrough-token-wrap"><span class="walkthrough-part-number">${String(index + 1).padStart(2, '0')}</span><code class="walkthrough-token">${escapeHTML(part.token)}</code></div><p>${escapeHTML(part.meaning)}</p></article>`).join('');
     els.challengeTitle.textContent = lesson.challengeTitle;
-    els.challengeDescription.innerHTML = lesson.challengeDescription;
-    const hintOpen = hintVisibleFor === lesson.id;
-    els.hintButton.textContent = hintOpen ? 'Hide hint' : 'Need a hint?';
-    els.hintBox.hidden = !hintOpen;
-    els.hintBox.innerHTML = lesson.hint;
+    els.challengeDescription.textContent = lesson.challengeDescription;
+    els.challengeEditor.value = typeof state.exerciseDrafts[lesson.id] === 'string' ? state.exerciseDrafts[lesson.id] : lesson.challengeCode;
+    els.expectedOutput.textContent = lesson.expectedOutput;
+    if (lessonChanged) {
+      clearExerciseOutput();
+      els.practiceRunState.textContent = 'Waiting for your code';
+      $('.expected-details').open = false;
+    }
+    els.hintButton.textContent = hintVisibleFor === lesson.id ? 'Hide hint' : 'Need a hint?';
+    els.hintBox.hidden = hintVisibleFor !== lesson.id;
+    els.hintBox.textContent = lesson.hint;
+    autosizeChallengeEditor();
     els.funFact.innerHTML = lesson.funFact;
     els.quizQuestion.innerHTML = lesson.quiz.question;
 
@@ -802,23 +1419,6 @@
     showToast(`${file.name} restored`);
   }
 
-  function addLessonFile(prefix, lesson, content) {
-    const baseName = `${prefix}-${lesson.id}.js`;
-    let target = fileByName(baseName);
-    if (!target) {
-      target = { name: baseName, content, starter: content };
-      state.files.push(target);
-    } else {
-      target.content = content;
-      target.starter = content;
-    }
-    state.activeFile = target.name;
-    renderFiles();
-    setMode('playground');
-    persistState(true);
-    showToast(`${target.name} opened · Press Run code when you're ready`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
 
   function scheduleEditorSave() {
     const file = currentFile();
@@ -828,6 +1428,54 @@
     els.lineGutter.textContent = Array.from({ length: Math.max(1, file.content.split('\n').length) }, (_, index) => String(index + 1)).join('\n');
     els.saveStatus.textContent = 'Saving…';
     persistState(true);
+  }
+
+  function autosizeChallengeEditor() {
+    const editor = els.challengeEditor;
+    if (!editor) return;
+    editor.style.height = 'auto';
+    const requestedHeight = editor.scrollHeight || 190;
+    editor.style.height = `${Math.max(165, Math.min(requestedHeight, 320))}px`;
+  }
+
+  function saveChallengeDraft() {
+    const lesson = activeLesson();
+    state.exerciseDrafts[lesson.id] = els.challengeEditor.value;
+    persistState(true);
+    autosizeChallengeEditor();
+  }
+
+  function resetChallenge() {
+    const lesson = activeLesson();
+    currentRunToken = '';
+    currentRunTarget = null;
+    setRunButtonRunning(false);
+    setExerciseRunning(false);
+    delete state.exerciseDrafts[lesson.id];
+    els.challengeEditor.value = lesson.challengeCode;
+    hintVisibleFor = '';
+    els.hintBox.hidden = true;
+    els.hintButton.textContent = 'Need a hint?';
+    clearExerciseOutput();
+    els.practiceRunState.textContent = 'Starter restored';
+    autosizeChallengeEditor();
+    persistState(true);
+  }
+
+  function handleChallengeKeydown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      const editor = els.challengeEditor;
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      editor.setRangeText('  ', start, end, 'end');
+      editor.dispatchEvent(new Event('input', { bubbles: true }));
+      return;
+    }
+    if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+      event.preventDefault();
+      runChallenge();
+    }
   }
 
   function handleEditorKeydown(event) {
@@ -882,6 +1530,30 @@
 
   function clearConsole() {
     els.consoleOutput.innerHTML = '<div class="console-empty"><span class="console-empty-icon" aria-hidden="true">✳</span><span>Your output will show up here.</span><span>Edit a line above, then press <strong>Run code</strong>.</span></div>';
+  }
+
+  function clearExerciseOutput() {
+    if (!els.exerciseOutput) return;
+    exerciseOutputCount = 0;
+    els.exerciseOutput.innerHTML = '<div class="practice-output-placeholder"><span>Type into the editor above, then press <strong>Run my code</strong>.</span><span>Your result will appear here—no playground switch needed.</span></div>';
+  }
+
+  function appendExerciseLine(text, type = 'log') {
+    const empty = $('.practice-output-placeholder', els.exerciseOutput);
+    if (empty) empty.remove();
+    const line = document.createElement('div');
+    line.className = `practice-console-line${type === 'error' ? ' is-error' : ''}${type === 'warn' ? ' is-warn' : ''}${type === 'system' ? ' is-system' : ''}`;
+    line.textContent = text;
+    els.exerciseOutput.appendChild(line);
+    els.exerciseOutput.scrollTop = els.exerciseOutput.scrollHeight;
+  }
+
+  function setExerciseRunning(isRunning) {
+    if (!els.runExerciseButton) return;
+    clearTimeout(exerciseRunTimer);
+    els.runExerciseButton.disabled = isRunning;
+    const label = $('span', els.runExerciseButton);
+    if (label) label.textContent = isRunning ? 'Running…' : 'Run my code';
   }
 
   function setRunButtonRunning(isRunning) {
@@ -983,16 +1655,59 @@
     clearConsole();
     appendSystemLine(`Running ${file.name}…`);
     setRunButtonRunning(true);
+    setExerciseRunning(false);
     const token = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     currentRunToken = token;
+    currentRunTarget = { kind: 'playground' };
     const sourceMap = Object.fromEntries(state.files.map((entry) => [entry.name, entry.content]));
     els.runnerFrame.srcdoc = buildRunnerDocument(sourceMap, file.name, token);
     runButtonTimer = setTimeout(() => setRunButtonRunning(false), 15000);
   }
 
+  function runChallenge() {
+    const lesson = activeLesson();
+    const code = els.challengeEditor.value;
+    state.exerciseDrafts[lesson.id] = code;
+    persistState(true);
+    setRunButtonRunning(false);
+    clearExerciseOutput();
+    appendExerciseLine('Running your code…', 'system');
+    els.practiceRunState.textContent = 'Running…';
+    setExerciseRunning(true);
+    const token = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    currentRunToken = token;
+    currentRunTarget = { kind: 'exercise', lessonId: lesson.id, outputCount: 0 };
+    els.runnerFrame.srcdoc = buildRunnerDocument({ 'practice.js': code }, 'practice.js', token);
+    exerciseRunTimer = setTimeout(() => setExerciseRunning(false), 15000);
+  }
+
   function handleRunnerMessage(event) {
-    if (event.source !== els.runnerFrame.contentWindow || !event.data || event.data.__kodelearnToken !== currentRunToken) return;
+    if (event.source !== els.runnerFrame.contentWindow || !event.data || event.data.__kodelearnToken !== currentRunToken || !currentRunTarget) return;
     const data = event.data;
+    if (currentRunTarget.kind === 'exercise') {
+      if (currentRunTarget.lessonId !== activeLesson().id) return;
+      if (data.type === 'log' || data.type === 'warn' || data.type === 'error') {
+        currentRunTarget.outputCount += 1;
+        const text = data.type === 'error' ? String(data.text || '').split(String.fromCharCode(10)).slice(0, 3).join(String.fromCharCode(10)) : (data.text || '');
+        appendExerciseLine(text, data.type);
+      }
+      if (data.type === 'clear') clearExerciseOutput();
+      if (data.type === 'done') {
+        setExerciseRunning(false);
+        if (data.failed) {
+          els.practiceRunState.textContent = 'There is an error to fix';
+          appendExerciseLine('Read the error above, edit the code, and try again.', 'system');
+        } else if (currentRunTarget.outputCount === 0) {
+          els.practiceRunState.textContent = 'Finished · no output yet';
+          appendExerciseLine('Your code ran but did not print anything. Try adding console.log(...).', 'system');
+        } else {
+          els.practiceRunState.textContent = `Finished in ${data.elapsed} ms`;
+          appendExerciseLine(`✓ Finished in ${data.elapsed} ms`, 'system');
+        }
+      }
+      return;
+    }
+
     if (data.type === 'log' || data.type === 'warn' || data.type === 'error') appendConsoleLine(data.text || '', data.type);
     if (data.type === 'clear') clearConsole();
     if (data.type === 'done') {
@@ -1143,9 +1858,11 @@
       hintVisibleFor = hintVisibleFor === lesson.id ? '' : lesson.id;
       renderLesson();
     });
-    $('#loadExampleButton').addEventListener('click', () => addLessonFile('example', activeLesson(), activeLesson().code));
-    $('#loadChallengeButton').addEventListener('click', () => addLessonFile('try', activeLesson(), activeLesson().challengeCode));
     $('#copyExampleButton').addEventListener('click', copyExample);
+    els.challengeEditor.addEventListener('input', saveChallengeDraft);
+    els.challengeEditor.addEventListener('keydown', handleChallengeKeydown);
+    els.runExerciseButton.addEventListener('click', runChallenge);
+    els.resetExerciseButton.addEventListener('click', resetChallenge);
 
     $('#learnModeButton').addEventListener('click', () => setMode('learn'));
     $('#playModeButton').addEventListener('click', () => setMode('playground'));
@@ -1188,6 +1905,7 @@
     window.addEventListener('beforeunload', () => {
       const file = currentFile();
       if (file) file.content = els.codeEditor.value;
+      state.exerciseDrafts[activeLesson().id] = els.challengeEditor.value;
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (error) {}
     });
   }
