@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0b12" />
+    <meta name="description" content="A playful, step-by-step JavaScript learning space with a live multi-file playground." />
+    <title>kodelearnJS — learn JavaScript by doing</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="icon-button mobile-menu-button" id="menuToggle" type="button" aria-label="Open learning path" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+        <a class="brand" href="#top" aria-label="kodelearnJS home">
+          <span class="brand-mark" aria-hidden="true"><span>{</span><i></i><span>}</span></span>
+          <span class="brand-name">kodelearn<span>JS</span></span>
+        </a>
+        <div class="topbar-divider" aria-hidden="true"></div>
+        <div class="course-label"><span class="course-dot"></span><span>JAVASCRIPT FOUNDATIONS</span></div>
+      </div>
+      <div class="topbar-right">
+        <div class="streak-pill" title="Keep learning to build your streak">
+          <span class="streak-flame" aria-hidden="true">✦</span><span id="streakLabel">Your streak</span>
+        </div>
+        <div class="xp-pill"><span class="xp-star" aria-hidden="true">✦</span><span id="xpTotal">0</span><span class="xp-label">XP</span></div>
+        <button class="avatar-button" type="button" aria-label="Your learning profile">K</button>
+      </div>
+    </header>
+
+    <div class="mobile-scrim" id="mobileScrim" hidden></div>
+
+    <div class="app-shell" id="top">
+      <aside class="sidebar" id="sidebar" aria-label="Learning path">
+        <div class="sidebar-head">
+          <div class="sidebar-eyebrow">YOUR LEARNING PATH</div>
+          <button class="icon-button close-sidebar" id="closeSidebar" type="button" aria-label="Close learning path">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+          </button>
+        </div>
+        <div class="course-card">
+          <div class="course-card-top">
+            <div class="course-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="m8.4 8-4 4 4 4M15.6 8l4 4-4 4M14 5l-4 14" /></svg>
+            </div>
+            <div><div class="course-card-title">JavaScript<br />from zero</div><div class="course-card-meta">9 bite-sized steps</div></div>
+          </div>
+          <div class="progress-caption"><span>YOUR PROGRESS</span><span id="progressText">0 / 9</span></div>
+          <div class="progress-track"><span id="progressBar"></span></div>
+        </div>
+
+        <div class="path-section-label"><span>THE PATH</span><span class="path-section-line"></span></div>
+        <nav class="lesson-nav" id="lessonNav" aria-label="JavaScript lessons"></nav>
+
+        <div class="sidebar-bottom">
+          <div class="daily-goal-icon" aria-hidden="true">✦</div>
+          <div class="daily-goal-copy"><strong>Little by little.</strong><span>One step at a time is still progress.</span></div>
+        </div>
+        <div class="sidebar-version">MADE FOR CURIOUS MINDS <span>·</span> v1.0</div>
+      </aside>
+
+      <main class="main-area">
+        <div class="mobile-mode-switch" role="tablist" aria-label="Choose a view">
+          <button class="mode-tab is-selected" id="learnModeButton" type="button" role="tab" aria-selected="true" data-mode="learn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21zM4 5.5v13A2.5 2.5 0 0 1 6.5 16H20" /></svg>
+            <span>Learn</span>
+          </button>
+          <button class="mode-tab" id="playModeButton" type="button" role="tab" aria-selected="false" data-mode="playground">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg>
+            <span>Playground</span><span class="mode-file-count" id="mobileFileCount">2</span>
+          </button>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="lesson-column" id="lessonColumn" aria-live="polite">
+            <div class="lesson-topline">
+              <div class="breadcrumbs"><span>JAVASCRIPT FROM ZERO</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg><span id="breadcrumbStep">STEP 01</span></div>
+              <div class="read-time"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.2"/><path d="M10 6v4.5l3 1.8"/></svg><span id="readTime">3 min</span></div>
+            </div>
+
+            <div class="lesson-heading">
+              <div class="step-chip"><span class="step-chip-sparkle" aria-hidden="true">✦</span><span id="lessonTopic">THE BUILDING BLOCKS</span></div>
+              <h1 id="lessonTitle">Give your ideas<br class="heading-break" /> <em>a name.</em></h1>
+              <p class="lesson-intro" id="lessonIntro"></p>
+            </div>
+
+            <article class="idea-card">
+              <div class="idea-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5a6.3 6.3 0 0 0-3.7 11.4c.8.6 1.2 1.3 1.3 2.1h4.8c.1-.8.5-1.5 1.3-2.1A6.3 6.3 0 0 0 12 3.5ZM9.8 20h4.4M10.2 17h3.6"/><path d="M12 1v1M3.8 4.1l.8.8m14.8-.8-.8.8M2 11h1.2m17.6 0H22"/></svg></div>
+              <div class="idea-copy"><div class="mini-label">THE BIG IDEA</div><p id="lessonConcept"></p></div>
+              <span class="idea-sparkle" aria-hidden="true">✧</span>
+            </article>
+
+            <div class="analogy-heading"><div><span class="mini-label">MAKE IT CLICK</span><h2>Picture it like this</h2></div><span class="two-ways-pill"><span>2</span> ways to see it</span></div>
+            <div class="analogy-grid" id="analogyGrid"></div>
+
+            <section class="breakdown-section">
+              <div class="section-title-row"><div><span class="mini-label">NO MYSTERY, JUST STEPS</span><h2>Let's break it down</h2></div><span class="breakdown-badge" aria-hidden="true">↘</span></div>
+              <div class="breakdown-list" id="breakdownList"></div>
+            </section>
+
+            <section class="try-card">
+              <div class="try-header">
+                <div class="try-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg></div>
+                <div><span class="mini-label">SEE IT IN CODE</span><h2>Small code, big idea</h2></div>
+              </div>
+              <p class="try-description" id="exampleDescription"></p>
+              <div class="example-code-wrap"><pre class="example-code" aria-label="JavaScript example"><code id="exampleCode"></code></pre><button class="copy-example-button" id="copyExampleButton" type="button" aria-label="Copy example code" title="Copy example"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5"/><path d="M12.5 6V4.5A1.5 1.5 0 0 0 11 3H5.5A1.5 1.5 0 0 0 4 4.5v8A1.5 1.5 0 0 0 5.5 14H7"/></svg></button></div>
+              <button class="text-action" id="loadExampleButton" type="button"><span>↳</span> Load this example in the playground</button>
+            </section>
+
+            <section class="challenge-card">
+              <div class="challenge-star" aria-hidden="true">✦</div>
+              <div class="challenge-content"><div class="challenge-topline"><span class="mini-label">YOUR TURN</span><span class="challenge-time">~ 1 min</span></div><h2 id="challengeTitle">Make it yours</h2><p id="challengeDescription"></p>
+                <div class="challenge-actions"><button class="primary-small-button" id="loadChallengeButton" type="button">Open the challenge <span aria-hidden="true">↗</span></button><button class="hint-button" id="hintButton" type="button">Need a hint?</button></div>
+                <div class="hint-box" id="hintBox" hidden></div>
+              </div>
+            </section>
+
+            <section class="fun-fact-card">
+              <div class="fact-mascot" aria-hidden="true"><span class="mascot-orbit orbit-one"></span><span class="mascot-orbit orbit-two"></span><span class="mascot-face">✦</span></div>
+              <div class="fact-copy"><div class="fact-heading"><span class="mini-label">DID YOU KNOW?</span><span class="fact-spark">✧</span></div><p id="funFact"></p></div>
+            </section>
+
+            <section class="quiz-card" id="quizCard">
+              <div class="quiz-head"><div class="quiz-icon" aria-hidden="true">?</div><div><span class="mini-label">QUICK CHECK</span><h2>One tiny brain boost</h2></div><div class="quiz-xp">✦ <span>+10 XP</span></div></div>
+              <p class="quiz-question" id="quizQuestion"></p>
+              <div class="quiz-options" id="quizOptions"></div>
+              <div class="quiz-feedback" id="quizFeedback" aria-live="polite"></div>
+            </section>
+
+            <div class="lesson-footer">
+              <button class="previous-step-button" id="previousLessonButton" type="button"><span aria-hidden="true">←</span> Previous</button>
+              <button class="complete-step-button" id="completeLessonButton" type="button"><span id="completeButtonText">Mark complete</span><span class="complete-check" aria-hidden="true">✓</span></button>
+            </div>
+            <div class="lesson-end-note"><span>✦</span> You're doing great. Keep going at your own pace.</div>
+          </section>
+
+          <section class="lab-column" id="labColumn" aria-label="JavaScript playground">
+            <div class="playground-card">
+              <div class="playground-header">
+                <div class="playground-title-wrap"><div class="playground-symbol" aria-hidden="true"><span>_</span><span>›</span></div><div><div class="playground-kicker">YOUR CREATIVE SPACE</div><h2>Playground</h2></div></div>
+                <div class="saved-status"><span class="saved-dot"></span><span id="saveStatus">Saved</span></div>
+              </div>
+              <div class="playground-subtitle"><span>Change something. See what happens.</span><span class="js-badge">JS <span>·</span> ES2022</span></div>
+
+              <div class="file-strip-wrap">
+                <div class="file-strip" id="fileStrip" role="tablist" aria-label="Project files"></div>
+                <button class="add-file-button" id="addFileButton" type="button" aria-label="Add a JavaScript file" title="Add file"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg></button>
+              </div>
+
+              <div class="editor-toolbar">
+                <div class="active-file-label"><span class="file-type-icon" aria-hidden="true">JS</span><span id="activeFileName">main.js</span><span class="entry-tag" id="entryTag">· ENTRY</span></div>
+                <div class="editor-actions">
+                  <button class="editor-icon-button" id="renameFileButton" type="button" aria-label="Rename current file" title="Rename file"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.8 4.2 3 3M4 16l3.2-.7 8.9-8.9a1.6 1.6 0 0 0-2.3-2.3L4.9 13zM3.5 17h13"/></svg></button>
+                  <button class="editor-icon-button" id="downloadFileButton" type="button" aria-label="Download current file" title="Download this file"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 14v2.5h12V14"/></svg></button>
+                  <button class="editor-icon-button danger-action" id="deleteFileButton" type="button" aria-label="Delete current file" title="Delete current file"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 6h11m-9.5 0 .6 10.5h6.8L14 6M8 6V4h4v2m-3 3v4m2-4v4"/></svg></button>
+                </div>
+              </div>
+
+              <div class="editor-frame" id="editorFrame" aria-label="Code editor">
+                <div class="line-gutter" id="lineGutter" aria-hidden="true"></div>
+                <div class="editor-canvas">
+                  <pre class="syntax-layer" aria-hidden="true"><code id="highlightedCode"></code></pre>
+                  <textarea id="codeEditor" aria-label="Edit JavaScript code" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" wrap="off"></textarea>
+                </div>
+              </div>
+
+              <div class="editor-footer"><span><kbd>Tab</kbd> to indent <span class="footer-dot">·</span> <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run</span><button class="reset-file-button" id="resetFileButton" type="button">Reset starter</button></div>
+
+              <div class="run-row"><button class="run-button" id="runButton" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6z"/></svg><span>Run code</span><kbd>⌘ ↵</kbd></button><span class="run-caption">Runs the open file <span>·</span> <code>require()</code> works across files</span></div>
+
+              <div class="console-panel">
+                <div class="console-header"><div class="console-heading"><span class="console-prompt" aria-hidden="true">›_</span><span>Console</span><span class="console-runtime">browser</span></div><button class="clear-console-button" id="clearConsoleButton" type="button">Clear</button></div>
+                <div class="console-output" id="consoleOutput" role="log" aria-live="polite" aria-label="Program output"><div class="console-empty"><span class="console-empty-icon" aria-hidden="true">✳</span><span>Your output will show up here.</span><span>Edit a line above, then press <strong>Run code</strong>.</span></div></div>
+              </div>
+
+              <div class="playground-bottom"><div class="multi-file-note"><span class="multi-file-icon" aria-hidden="true">⌘</span><span><strong>More than one file?</strong> Try <code>require("./helpers.js")</code>.</span></div><button class="download-project-button" id="downloadProjectButton" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 3.5h7l4 4v9h-11zM11.5 3.5v4h4M7 11h6M7 14h6"/></svg><span>Download project</span><span class="download-file-count" id="downloadFileCount">2 files · ZIP</span></button></div>
+              <div class="local-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg> Your files are saved on this device.</div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div class="file-modal-backdrop" id="fileModalBackdrop" hidden>
+      <section class="file-modal" role="dialog" aria-modal="true" aria-labelledby="fileModalTitle">
+        <button class="icon-button modal-close-button" id="closeFileModal" type="button" aria-label="Close dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
+        <div class="modal-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3.5h9l5 5v12H5zM14 3.5v5h5M8 14h8M8 17h5"/></svg></div>
+        <span class="mini-label">YOUR PROJECT</span>
+        <h2 id="fileModalTitle">Add a new file</h2>
+        <p id="fileModalDescription">Keep your code tidy by splitting it into small JavaScript files.</p>
+        <form id="fileModalForm">
+          <label for="fileNameInput">File name</label>
+          <div class="filename-input-wrap"><input id="fileNameInput" type="text" maxlength="40" autocomplete="off" placeholder="helpers.js" required /><span>.js</span></div>
+          <div class="file-name-error" id="fileNameError" aria-live="polite"></div>
+          <div class="modal-actions"><button class="modal-cancel-button" id="cancelFileModal" type="button">Cancel</button><button class="modal-submit-button" id="submitFileModal" type="submit">Create file <span aria-hidden="true">↗</span></button></div>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-check">✓</span><span id="toastMessage"></span></div>
+
+    <iframe id="runnerFrame" title="JavaScript code runner" sandbox="allow-scripts" aria-hidden="true" tabindex="-1"></iframe>
+  </body>
+</html>
