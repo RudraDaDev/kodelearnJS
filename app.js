@@ -959,11 +959,21 @@
   let runButtonTimer = null;
   let exerciseRunTimer = null;
   let exerciseOutputCount = 0;
+  let visualRuntimeStep = 0;
+  let visualRuntimeMethod = 'log';
   let visualScore = 0;
+  let visualTypeIndex = 0;
+  let visualName = 'Kai';
+  let visualMathOperator = '+';
   let visualBranchScore = 12;
+  let visualLoopValue = 1;
+  let visualLoopPhase = 'condition';
+  let visualLoopOutput = [];
+  let visualLoopFinished = false;
   let visualFunctionInput = 4;
+  let visualArrayItems = [];
+  let visualArrayIndex = 0;
   let visualPetIsPlayful = false;
-  let loopAnimationTimer = null;
 
   const els = {
     app: $('.main-area'),
@@ -1194,64 +1204,92 @@
   function renderVisualization(lesson) {
     const visualizations = {
       'how-js-works': {
-        title: 'See the console speak',
-        caption: 'Both methods show messages in a console. A normal log is for information; a warning is a yellow heads-up.',
-        markup: `<div class="console-samples" role="img" aria-label="console.log shows a normal message, while console.warn shows a yellow warning">
-          <article class="console-sample"><div class="console-sample-code"><span class="console-kind">LOG</span><code>console.log("Ready!");</code></div><div class="console-sample-result"><span>›</span> Ready!</div></article>
-          <article class="console-sample is-warning"><div class="console-sample-code"><span class="console-kind">WARN</span><code>console.warn("Check this");</code></div><div class="console-sample-result"><span>⚠</span> Check this</div></article>
-        </div><div class="console-later-note"><span aria-hidden="true">!</span><p><strong>For later:</strong> <code>console.warn(...)</code> highlights a message that needs attention. It is a warning, not always a crash. You will see it in the Playground too.</p></div>`
+        title: 'Follow one line through the browser',
+        caption: 'Step through the journey: the engine reads your code and shows its message in the console. Try console.warn() for a highlighted warning—a heads-up, not necessarily a crash.',
+        markup: `<div class="viz-runtime">
+          <div class="viz-code-bar"><span>YOUR CODE</span><code id="visualRuntimeCode">console.log("hello world");</code></div>
+          <div class="viz-runtime-pipeline" role="group" aria-label="Source code flows through the JavaScript engine to the console">
+            <article class="viz-runtime-node is-active" id="visualSourceNode"><span>01 · SOURCE</span><strong>Your code</strong><small>Instructions you write</small></article>
+            <span class="viz-runtime-arrow" id="visualRuntimeArrowOne" aria-hidden="true">→</span>
+            <article class="viz-runtime-node" id="visualEngineNode"><span>02 · ENGINE</span><strong>JavaScript engine</strong><small>Reads and runs it</small></article>
+            <span class="viz-runtime-arrow" id="visualRuntimeArrowTwo" aria-hidden="true">→</span>
+            <article class="viz-runtime-node" id="visualConsoleNode"><span>03 · CONSOLE</span><strong>Output</strong><small id="visualRuntimeResult">Waiting for code…</small></article>
+          </div>
+          <div class="viz-runtime-console" id="visualRuntimeConsole" aria-live="polite"><span id="visualRuntimeKind">OUTPUT</span><code id="visualConsoleOutput">…waiting for the message</code></div>
+          <div class="viz-control-row"><button type="button" class="viz-button" data-visual-action="runtime-step">Next step</button><button type="button" class="viz-button viz-button-secondary" data-visual-action="runtime-toggle">Try console.warn()</button><span class="viz-control-note" id="visualRuntimeStatus" aria-live="polite">The code is ready. Step through to watch what happens.</span></div>
+        </div>`
       },
       variables: {
-        title: 'A steady name and a changing name',
-        caption: 'A player name usually stays the same, so use const. A score changes as you play, so use let.',
-        markup: `<div class="memory-visual">
-          <article class="memory-slot is-steady"><div class="memory-slot-head"><span>const</span><code>playerName</code><b aria-hidden="true">▣</b></div><div class="memory-value">"Mina"</div><small>Keep this value</small></article>
-          <article class="memory-slot is-changing"><div class="memory-slot-head"><span>let</span><code>score</code><b aria-hidden="true">↻</b></div><div class="memory-value" id="visualScore">0</div><small>This one can change</small></article>
-        </div><div class="visual-action-row"><code>score = score + 1</code><button type="button" class="visual-action-button" data-visual-action="score-up">Add 1 point</button><span class="visual-action-result" id="visualScoreTrail">score starts at 0</span></div>`
+        title: 'Watch a variable change in memory',
+        caption: 'A variable is a named place for a value. Run the assignment and watch the let value update; the const value stays put.',
+        markup: `<div class="viz-memory-grid">
+          <article class="viz-memory-cell is-locked"><div class="viz-memory-heading"><span>const</span><code>playerName</code><b aria-hidden="true">▣</b></div><strong class="viz-live-value">"Mina"</strong><small>Same value</small></article>
+          <article class="viz-memory-cell is-variable"><div class="viz-memory-heading"><span>let</span><code>score</code><b aria-hidden="true">↻</b></div><strong class="viz-live-value" id="visualScore">0</strong><small id="visualScoreTrail">Ready to change</small></article>
+        </div>
+        <div class="viz-code-bar"><span>RUN THIS ASSIGNMENT</span><code>score = score + 1;</code></div>
+        <div class="viz-control-row"><button type="button" class="viz-button" data-visual-action="score-up">Run assignment</button><button type="button" class="viz-button viz-button-secondary" data-visual-action="score-reset">Reset score</button><span class="viz-control-note">The new value replaces the old score.</span></div>`
       },
       values: {
-        title: 'Same-looking values, different jobs',
-        caption: 'Quotes turn 42 into text. Without quotes it is a number, so JavaScript can do math with it.',
-        markup: `<div class="value-type-visual">
-          <article class="value-type-card is-number"><span>NUMBER</span><strong>42</strong><small>Good for counting and math</small></article>
-          <article class="value-type-card is-string"><span>STRING · TEXT</span><strong>"42"</strong><small>Quotes make it text</small></article>
-          <article class="value-type-card is-boolean"><span>BOOLEAN · YES/NO</span><strong>true</strong><small>A yes-or-no answer</small></article>
-        </div><div class="type-result-visual"><div><code>42 + 2</code><strong>44</strong></div><span>but</span><div><code>"42" + 2</code><strong>"422"</strong></div></div>`
+        title: 'See what type a value is',
+        caption: 'Choose a value. JavaScript can tell you its type with typeof. Quotes make 42 text instead of a number.',
+        markup: `<div class="viz-type-choices" role="group" aria-label="Choose a JavaScript value">
+          <button type="button" class="viz-type-choice is-selected" data-visual-action="select-type" data-type-index="0" aria-pressed="true"><strong>42</strong><span>number</span></button>
+          <button type="button" class="viz-type-choice" data-visual-action="select-type" data-type-index="1" aria-pressed="false"><strong>"42"</strong><span>string</span></button>
+          <button type="button" class="viz-type-choice" data-visual-action="select-type" data-type-index="2" aria-pressed="false"><strong>true</strong><span>boolean</span></button>
+        </div>
+        <div class="viz-type-flow"><div class="viz-type-payload is-number" id="visualTypePayload"><span>VALUE</span><strong id="visualTypeValue">42</strong></div><span class="viz-flow-arrow" aria-hidden="true">→</span><div class="viz-type-inspector"><span>ASK JAVASCRIPT</span><code>typeof value</code></div><span class="viz-flow-arrow" aria-hidden="true">→</span><div class="viz-type-answer"><span>TYPE</span><strong id="visualTypeName" aria-live="polite">number</strong></div></div>
+        <p class="viz-type-explanation" id="visualTypeExplanation" aria-live="polite">42 has no quotes, so JavaScript treats it as a number. You can use it in math.</p>`
       },
       strings: {
-        title: 'Build a message from little pieces',
-        caption: 'The variable name stands for its saved value. Put the pieces together and you get one complete sentence.',
-        markup: `<div class="string-build-visual"><div class="string-piece"><span>TEXT</span><code>"Hello, "</code></div><b>+</b><div class="string-piece is-variable"><span>VALUE OF name</span><code>"Kai"</code></div><b>+</b><div class="string-piece"><span>TEXT</span><code>"!"</code></div><i>→</i><div class="string-result"><span>ONE STRING</span><strong>Hello, Kai!</strong></div></div><div class="visual-note-line">A string is text. The plus sign joins text pieces together.</div>`
+        title: 'Build a string from live pieces',
+        caption: 'Change the name. The variable’s value and the finished message update together, just like a template string.',
+        markup: `<label class="viz-string-input">Change the name <input id="visualNameInput" type="text" value="Kai" maxlength="18" autocomplete="off" aria-label="Name used in the greeting"></label>
+        <div class="viz-code-bar"><span>STRING TEMPLATE</span><code>const message = \`Hello, \${name}!\`;</code></div>
+        <div class="viz-string-flow"><div class="viz-string-piece"><span>TEXT</span><code>"Hello, "</code></div><b aria-hidden="true">+</b><div class="viz-string-piece is-variable"><span>VALUE OF name</span><code id="visualStringName">"Kai"</code></div><b aria-hidden="true">+</b><div class="viz-string-piece"><span>TEXT</span><code>"!"</code></div><span class="viz-flow-arrow" aria-hidden="true">→</span><div class="viz-string-result"><span>ONE STRING</span><strong id="visualStringResult" aria-live="polite">Hello, Kai!</strong></div></div>`
       },
       numbers: {
-        title: 'Watch the math happen',
-        caption: 'JavaScript calculates the answer on the right side of the equals sign, then saves it under total.',
-        markup: `<div class="math-visual"><div class="math-number">12<small>energy</small></div><div class="math-operator">+</div><div class="math-number">4<small>bonus</small></div><div class="math-equals">=</div><div class="math-number is-answer">16<small>total</small></div></div><div class="math-operator-key"><span>+ add</span><span>− subtract</span><span>× multiply (<code>*</code>)</span><span>÷ divide (<code>/</code>)</span></div>`
+        title: 'Change the operator; see the answer',
+        caption: 'The values stay the same while the operation changes. JavaScript calculates the result for you.',
+        markup: `<div class="viz-math-flow"><div class="viz-math-value"><span>ENERGY</span><strong>12</strong></div><span class="viz-math-symbol" id="visualMathSymbol" aria-live="polite">+</span><div class="viz-math-value"><span>BONUS</span><strong>4</strong></div><span class="viz-flow-arrow" aria-hidden="true">→</span><div class="viz-math-result"><span>TOTAL</span><strong id="visualMathAnswer" aria-live="polite">16</strong></div></div>
+        <div class="viz-operator-controls" role="group" aria-label="Choose a math operation"><button type="button" class="viz-operator-button is-selected" data-visual-action="select-math" data-operation="+" aria-pressed="true">Add <code>+</code></button><button type="button" class="viz-operator-button" data-visual-action="select-math" data-operation="-" aria-pressed="false">Subtract <code>−</code></button><button type="button" class="viz-operator-button" data-visual-action="select-math" data-operation="*" aria-pressed="false">Multiply <code>×</code></button><button type="button" class="viz-operator-button" data-visual-action="select-math" data-operation="/" aria-pressed="false">Divide <code>÷</code></button></div>`
       },
       conditions: {
-        title: 'One question picks one path',
-        caption: 'Try changing the score. The answer changes, so JavaScript chooses a different message.',
-        markup: `<div class="decision-visual"><div class="decision-question"><span>THE QUESTION</span><code>score &gt;= 10?</code><strong id="visualBranchAnswer">12 → true</strong></div><div class="decision-branches"><article class="decision-branch is-active" id="visualTrueBranch"><span>IF YES · TRUE</span><strong>Level up!</strong></article><article class="decision-branch" id="visualFalseBranch"><span>ELSE · FALSE</span><strong>Keep playing!</strong></article></div><button type="button" class="visual-action-button" data-visual-action="toggle-score">Try score 4</button></div>`
+        title: 'Move the slider to choose a branch',
+        caption: 'The if question is checked again whenever the score changes. Watch the highlighted path switch between true and false.',
+        markup: `<div class="viz-if-code"><code>if (score &gt;= 10) { … } else { … }</code><span id="visualBranchReadout">score = 12</span></div>
+        <div class="viz-decision-flow"><div class="viz-question-node"><span>CHECK THIS QUESTION</span><code id="visualBranchQuestion">12 &gt;= 10 ?</code><strong id="visualBranchAnswer">TRUE</strong></div><div class="viz-branch-routes"><div class="viz-branch-route is-active" id="visualTrueRoute"><span>YES</span><b aria-hidden="true">↘</b></div><div class="viz-branch-route" id="visualFalseRoute"><span>NO</span><b aria-hidden="true">↙</b></div></div><div class="viz-branch-outcomes"><article class="viz-branch-outcome is-active" id="visualTrueBranch"><span>IF TRUE</span><strong>Level up!</strong></article><article class="viz-branch-outcome" id="visualFalseBranch"><span>ELSE</span><strong>Keep playing!</strong></article></div></div>
+        <label class="viz-range-control" for="visualBranchInput"><span>Score</span><strong id="visualBranchScoreLabel">12</strong><input id="visualBranchInput" type="range" min="0" max="20" value="12" aria-label="Change score to test the if condition"></label>
+        <p class="viz-control-note" id="visualBranchStatus" aria-live="polite">12 is at least 10, so the true branch runs.</p>`
       },
       loops: {
-        title: 'One instruction, three repeats',
-        caption: 'The counter moves 1 → 2 → 3. After 3, the question is false, so the loop stops.',
-        markup: `<div class="loop-visual"><div class="loop-track"><article class="loop-round"><span>ROUND 1</span><strong>i = 1</strong><small>print 1</small></article><b>→</b><article class="loop-round"><span>ROUND 2</span><strong>i = 2</strong><small>print 2</small></article><b>→</b><article class="loop-round"><span>ROUND 3</span><strong>i = 3</strong><small>print 3</small></article><b>→</b><article class="loop-stop"><span>i = 4</span><strong>Stop</strong><small>4 is not ≤ 3</small></article></div><button type="button" class="visual-action-button" data-visual-action="replay-loop">Replay the loop</button></div>`
+        title: 'Step through a real loop trace',
+        caption: 'Each click takes one step: check the condition, run the body, then increase i. The loop stops when the check is false.',
+        markup: `<div class="viz-code-bar"><span>THE LOOP</span><code>for (let i = 1; i &lt;= 3; i++) { console.log(i); }</code></div>
+        <div class="viz-loop-flow"><article class="viz-loop-node is-active" id="visualLoopConditionNode"><span>CHECK</span><strong>i &lt;= 3?</strong><small id="visualLoopCondition">1 &lt;= 3 is true</small></article><span aria-hidden="true">→</span><article class="viz-loop-node" id="visualLoopBodyNode"><span>BODY</span><strong>print i</strong><small>console.log(i)</small></article><span aria-hidden="true">→</span><article class="viz-loop-node" id="visualLoopIncrementNode"><span>INCREASE</span><strong>i++</strong><small>add one</small></article><span aria-hidden="true">↺</span><article class="viz-loop-node viz-loop-stop" id="visualLoopStopNode"><span>EXIT CHECK</span><strong>Stop</strong><small>when false</small></article></div>
+        <div class="viz-loop-progress"><strong id="visualLoopCounter">i = 1</strong><span id="visualLoopStatus" aria-live="polite">Ready — check whether the loop should run.</span></div>
+        <div class="viz-loop-output"><span>CONSOLE OUTPUT</span><div class="viz-loop-output-values" id="visualLoopOutput"><small>Nothing printed yet</small></div></div>
+        <div class="viz-control-row"><button type="button" class="viz-button" data-visual-action="loop-step">Next step</button><span class="viz-control-note">Step one instruction at a time.</span></div>`
       },
       functions: {
-        title: 'A function takes in, works, and gives back',
-        caption: 'double receives a number, multiplies it by 2, then returns the answer to the code that called it.',
-        markup: `<div class="function-flow-visual"><div class="function-value"><span>INPUT</span><strong id="visualFunctionInput">4</strong></div><b>→</b><div class="function-machine"><span>FUNCTION</span><code>double(number)</code><small>number × 2</small></div><b>→</b><div class="function-value is-result"><span>RETURN</span><strong id="visualFunctionResult">8</strong></div></div><button type="button" class="visual-action-button" data-visual-action="function-input">Try another number</button>`
+        title: 'Send a value through a function',
+        caption: 'Choose the input. It enters double, the function multiplies it by two, then returns the answer.',
+        markup: `<label class="viz-range-control" for="visualFunctionRange"><span>Input number</span><strong id="visualFunctionInput">4</strong><input id="visualFunctionRange" type="range" min="1" max="10" value="4" aria-label="Choose the number to pass to double"></label>
+        <div class="viz-function-flow"><div class="viz-function-value"><span>ARGUMENT GOES IN</span><strong id="visualFunctionArgument">4</strong></div><span class="viz-flow-arrow" aria-hidden="true">→</span><div class="viz-function-machine"><span>FUNCTION</span><code>double(number)</code><div><b id="visualFunctionMath">4</b><i>× 2</i></div></div><span class="viz-flow-arrow" aria-hidden="true">→</span><div class="viz-function-value is-return"><span>RETURN VALUE</span><strong id="visualFunctionResult" aria-live="polite">8</strong></div></div>`
       },
       arrays: {
-        title: 'An array is a numbered list',
-        caption: 'The first item is at index 0—not 1. Each tile shows the position you use to get that item.',
-        markup: `<div class="array-visual"><div class="array-bracket">[</div><article class="array-item"><span>INDEX 0</span><strong>"mango"</strong></article><article class="array-item"><span>INDEX 1</span><strong>"popcorn"</strong></article><article class="array-item"><span>INDEX 2</span><strong>"cookies"</strong></article><div class="array-bracket">]</div></div><div class="visual-note-line"><code>snacks[0]</code> gives you <strong>"mango"</strong>, the first item.</div>`
+        title: 'Pick an array index and get its item',
+        caption: 'Click a tile to read that position. Indexes start at zero; add an item to see the list grow.',
+        markup: `<div class="viz-array-caption"><code>const snacks = [ … ];</code><span>length: <strong id="visualArrayLength">3</strong></span></div>
+        <div class="viz-array-scroll"><span class="viz-array-bracket" aria-hidden="true">[</span><div class="viz-array-slots" id="visualArraySlots"></div><span class="viz-array-bracket" aria-hidden="true">]</span></div>
+        <div class="viz-array-readout" aria-live="polite"><code id="visualArrayReadout">snacks[0]</code><span>→</span><strong id="visualArrayResult">"mango"</strong></div>
+        <div class="viz-control-row"><button type="button" class="viz-button" data-visual-action="array-push">Push an item</button><span class="viz-control-note" id="visualArrayStatus">The first item is at index 0.</span></div>`
       },
       objects: {
-        title: 'An object is a card of labeled details',
-        caption: 'Each label points to one value. Click the button to update the mood and see the value change.',
-        markup: `<div class="object-visual"><div class="object-card"><div class="object-card-title"><span aria-hidden="true">✦</span> pet</div><div class="object-property"><code>name</code><span>:</span><strong>"Mochi"</strong></div><div class="object-property"><code>mood</code><span>:</span><strong id="visualPetMood">"sleepy"</strong></div></div><button type="button" class="visual-action-button" data-visual-action="toggle-mood">Change mood</button></div>`
+        title: 'Change a property on an object',
+        caption: 'An object connects labels to values. Change mood and watch that one property update in the object.',
+        markup: `<div class="viz-object-model"><div class="viz-object-code"><span>OBJECT IN CODE</span><code>const pet = {<br>  name: "Mochi",<br>  mood: "<b id="visualObjectCodeMood">sleepy</b>"<br>};</code></div><span class="viz-flow-arrow" aria-hidden="true">↔</span><div class="viz-object-card"><div class="viz-object-title"><span aria-hidden="true">{ }</span> pet</div><div class="viz-object-property"><code>name</code><span>:</span><strong>"Mochi"</strong></div><div class="viz-object-property"><code>mood</code><span>:</span><strong id="visualPetMood">"sleepy"</strong></div></div></div>
+        <div class="viz-code-bar"><span>UPDATE ONE PROPERTY</span><code id="visualObjectAssignment">pet.mood = "playful";</code></div>
+        <div class="viz-control-row"><button type="button" class="viz-button" data-visual-action="toggle-mood">Change mood</button><span class="viz-control-note" id="visualObjectStatus" aria-live="polite">The other property, name, stays the same.</span></div>`
       }
     };
     const visual = visualizations[lesson.id];
@@ -1259,51 +1297,264 @@
     els.visualizationTitle.textContent = visual.title;
     els.visualizationCaption.textContent = visual.caption;
     els.visualizationStage.innerHTML = visual.markup;
+
+    visualRuntimeStep = 0;
+    visualRuntimeMethod = 'log';
     visualScore = 0;
+    visualTypeIndex = 0;
+    visualName = 'Kai';
+    visualMathOperator = '+';
     visualBranchScore = 12;
+    visualLoopValue = 1;
+    visualLoopPhase = 'condition';
+    visualLoopOutput = [];
+    visualLoopFinished = false;
     visualFunctionInput = 4;
+    visualArrayItems = ['mango', 'popcorn', 'cookies'];
+    visualArrayIndex = 0;
     visualPetIsPlayful = false;
-    clearTimeout(loopAnimationTimer);
+
+    if (lesson.id === 'how-js-works') updateRuntimeVisualization();
+    if (lesson.id === 'values') updateTypeVisualization();
+    if (lesson.id === 'numbers') updateMathVisualization();
+    if (lesson.id === 'conditions') updateBranchVisualization();
+    if (lesson.id === 'loops') updateLoopVisualization();
+    if (lesson.id === 'functions') updateFunctionVisualization();
+    if (lesson.id === 'arrays') renderArrayVisualization();
+  }
+
+  function pulseVisualizationElement(element) {
+    if (!element) return;
+    element.classList.remove('is-changing');
+    void element.offsetWidth;
+    element.classList.add('is-changing');
+  }
+
+  function updateRuntimeVisualization() {
+    const nodes = ['#visualSourceNode', '#visualEngineNode', '#visualConsoleNode'];
+    nodes.forEach((selector, index) => {
+      const node = $(selector, els.visualizationStage);
+      node.classList.toggle('is-active', visualRuntimeStep < 3 && index === visualRuntimeStep);
+      node.classList.toggle('is-done', visualRuntimeStep === 3 || index < visualRuntimeStep);
+    });
+    $('#visualRuntimeArrowOne', els.visualizationStage).classList.toggle('is-active', visualRuntimeStep >= 1);
+    $('#visualRuntimeArrowTwo', els.visualizationStage).classList.toggle('is-active', visualRuntimeStep >= 2);
+    const isWarning = visualRuntimeMethod === 'warn';
+    const hasOutput = visualRuntimeStep >= 2;
+    $('#visualRuntimeCode', els.visualizationStage).textContent = isWarning ? 'console.warn("Check this");' : 'console.log("hello world");';
+    $('#visualRuntimeResult', els.visualizationStage).textContent = hasOutput ? (isWarning ? 'Warning shown' : 'Message shown') : 'Waiting for code…';
+    $('#visualRuntimeKind', els.visualizationStage).textContent = hasOutput ? (isWarning ? 'WARN' : 'LOG') : 'OUTPUT';
+    $('#visualConsoleOutput', els.visualizationStage).textContent = hasOutput ? (isWarning ? 'Check this' : 'hello world') : '…waiting for the message';
+    $('#visualRuntimeConsole', els.visualizationStage).classList.toggle('is-warning', hasOutput && isWarning);
+    $('#visualRuntimeStatus', els.visualizationStage).textContent = [
+      'The code is ready. Step through to watch what happens.',
+      'The JavaScript engine is reading your source code.',
+      'The engine ran the method and sent a message to the console.',
+      'Finished. Run it again to follow the steps once more.'
+    ][visualRuntimeStep];
+    $('[data-visual-action="runtime-step"]', els.visualizationStage).textContent = visualRuntimeStep === 3 ? 'Run again' : 'Next step';
+    $('[data-visual-action="runtime-toggle"]', els.visualizationStage).textContent = isWarning ? 'Switch to console.log()' : 'Try console.warn()';
+  }
+
+  function updateTypeVisualization() {
+    const samples = [
+      { value: '42', type: 'number', className: 'is-number', explanation: '42 has no quotes, so JavaScript treats it as a number. You can use it in math.' },
+      { value: '"42"', type: 'string', className: 'is-string', explanation: 'The quotes make 42 text. JavaScript calls text a string.' },
+      { value: 'true', type: 'boolean', className: 'is-boolean', explanation: 'true is a boolean: a yes-or-no value that can be used in a decision.' }
+    ];
+    const sample = samples[visualTypeIndex];
+    $('#visualTypePayload', els.visualizationStage).className = `viz-type-payload ${sample.className}`;
+    $('#visualTypeValue', els.visualizationStage).textContent = sample.value;
+    $('#visualTypeName', els.visualizationStage).textContent = sample.type;
+    $('#visualTypeExplanation', els.visualizationStage).textContent = sample.explanation;
+    els.visualizationStage.querySelectorAll('[data-type-index]').forEach((button) => {
+      const selected = Number(button.dataset.typeIndex) === visualTypeIndex;
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+  }
+
+  function updateMathVisualization() {
+    const values = { '+': 16, '-': 8, '*': 48, '/': 3 };
+    $('#visualMathSymbol', els.visualizationStage).textContent = visualMathOperator;
+    $('#visualMathAnswer', els.visualizationStage).textContent = String(values[visualMathOperator]);
+    els.visualizationStage.querySelectorAll('[data-operation]').forEach((button) => {
+      const selected = button.dataset.operation === visualMathOperator;
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    pulseVisualizationElement($('#visualMathAnswer', els.visualizationStage));
+  }
+
+  function updateBranchVisualization() {
+    const passes = visualBranchScore >= 10;
+    $('#visualBranchReadout', els.visualizationStage).textContent = `score = ${visualBranchScore}`;
+    $('#visualBranchQuestion', els.visualizationStage).textContent = `${visualBranchScore} >= 10 ?`;
+    $('#visualBranchAnswer', els.visualizationStage).textContent = passes ? 'TRUE' : 'FALSE';
+    $('#visualBranchScoreLabel', els.visualizationStage).textContent = String(visualBranchScore);
+    $('#visualTrueBranch', els.visualizationStage).classList.toggle('is-active', passes);
+    $('#visualFalseBranch', els.visualizationStage).classList.toggle('is-active', !passes);
+    $('#visualTrueRoute', els.visualizationStage).classList.toggle('is-active', passes);
+    $('#visualFalseRoute', els.visualizationStage).classList.toggle('is-active', !passes);
+    $('#visualBranchStatus', els.visualizationStage).textContent = passes
+      ? `${visualBranchScore} is at least 10, so the true branch runs.`
+      : `${visualBranchScore} is less than 10, so the else branch runs.`;
+    pulseVisualizationElement($('#visualBranchAnswer', els.visualizationStage));
+  }
+
+  function updateLoopVisualization() {
+    $('#visualLoopCounter', els.visualizationStage).textContent = `i = ${visualLoopValue}`;
+    $('#visualLoopCondition', els.visualizationStage).textContent = `${visualLoopValue} <= 3 is ${visualLoopValue <= 3 ? 'true' : 'false'}`;
+    const activePhase = visualLoopFinished ? 'stop' : visualLoopPhase;
+    ['condition', 'body', 'increment', 'stop'].forEach((phase) => {
+      const node = $(`#visualLoop${phase[0].toUpperCase()}${phase.slice(1)}Node`, els.visualizationStage);
+      if (node) node.classList.toggle('is-active', activePhase === phase);
+    });
+    const output = $('#visualLoopOutput', els.visualizationStage);
+    output.innerHTML = visualLoopOutput.length
+      ? visualLoopOutput.map((value) => `<span class="viz-loop-chip">${value}</span>`).join('')
+      : '<small>Nothing printed yet</small>';
+    $('[data-visual-action="loop-step"]', els.visualizationStage).textContent = visualLoopFinished ? 'Start over' : 'Next step';
+  }
+
+  function stepLoopVisualization() {
+    if (visualLoopFinished) {
+      visualLoopValue = 1;
+      visualLoopPhase = 'condition';
+      visualLoopOutput = [];
+      visualLoopFinished = false;
+      $('#visualLoopStatus', els.visualizationStage).textContent = 'Ready — check whether the loop should run.';
+      updateLoopVisualization();
+      return;
+    }
+    if (visualLoopPhase === 'condition') {
+      if (visualLoopValue <= 3) {
+        visualLoopPhase = 'body';
+        $('#visualLoopStatus', els.visualizationStage).textContent = `True — now run the body with i = ${visualLoopValue}.`;
+      } else {
+        visualLoopFinished = true;
+        visualLoopPhase = 'stop';
+        $('#visualLoopStatus', els.visualizationStage).textContent = `False — ${visualLoopValue} is greater than 3, so the loop stops.`;
+      }
+    } else if (visualLoopPhase === 'body') {
+      visualLoopOutput.push(visualLoopValue);
+      visualLoopPhase = 'increment';
+      $('#visualLoopStatus', els.visualizationStage).textContent = `console.log(i) prints ${visualLoopValue}. Next, i++ adds one.`;
+      pulseVisualizationElement($('#visualLoopOutput', els.visualizationStage));
+    } else if (visualLoopPhase === 'increment') {
+      visualLoopValue += 1;
+      visualLoopPhase = 'condition';
+      $('#visualLoopStatus', els.visualizationStage).textContent = `i++ changed i to ${visualLoopValue}. Check the condition again.`;
+      pulseVisualizationElement($('#visualLoopCounter', els.visualizationStage));
+    }
+    updateLoopVisualization();
+  }
+
+  function updateFunctionVisualization() {
+    $('#visualFunctionInput', els.visualizationStage).textContent = String(visualFunctionInput);
+    $('#visualFunctionArgument', els.visualizationStage).textContent = String(visualFunctionInput);
+    $('#visualFunctionMath', els.visualizationStage).textContent = String(visualFunctionInput);
+    $('#visualFunctionResult', els.visualizationStage).textContent = String(visualFunctionInput * 2);
+    pulseVisualizationElement($('#visualFunctionResult', els.visualizationStage));
+  }
+
+  function renderArrayVisualization() {
+    const slots = $('#visualArraySlots', els.visualizationStage);
+    if (!slots) return;
+    slots.innerHTML = visualArrayItems.map((item, index) => `<button type="button" class="viz-array-item${index === visualArrayIndex ? ' is-selected' : ''}" data-visual-action="select-array" data-array-index="${index}" aria-pressed="${index === visualArrayIndex}" aria-label="Index ${index}: ${escapeHTML(item)}"><span>INDEX ${index}</span><strong>${escapeHTML(JSON.stringify(item))}</strong></button>`).join('');
+    $('#visualArrayLength', els.visualizationStage).textContent = String(visualArrayItems.length);
+    $('#visualArrayReadout', els.visualizationStage).textContent = `snacks[${visualArrayIndex}]`;
+    $('#visualArrayResult', els.visualizationStage).textContent = JSON.stringify(visualArrayItems[visualArrayIndex]);
+    $('#visualArrayStatus', els.visualizationStage).textContent = visualArrayItems.length === 3
+      ? 'The first item is at index 0.'
+      : `There are ${visualArrayItems.length} items. The last index is ${visualArrayItems.length - 1}.`;
+    pulseVisualizationElement($('#visualArrayResult', els.visualizationStage));
+  }
+
+  function handleVisualizationInput(event) {
+    const target = event.target;
+    if (target.id === 'visualNameInput') {
+      visualName = target.value;
+      $('#visualStringName', els.visualizationStage).textContent = JSON.stringify(visualName);
+      $('#visualStringResult', els.visualizationStage).textContent = `Hello, ${visualName}!`;
+      pulseVisualizationElement($('#visualStringResult', els.visualizationStage));
+      return;
+    }
+    if (target.id === 'visualBranchInput') {
+      visualBranchScore = Number(target.value);
+      updateBranchVisualization();
+      return;
+    }
+    if (target.id === 'visualFunctionRange') {
+      visualFunctionInput = Number(target.value);
+      updateFunctionVisualization();
+    }
   }
 
   function handleVisualizationAction(event) {
     const button = event.target.closest('[data-visual-action]');
     if (!button) return;
     const action = button.dataset.visualAction;
-    if (action === 'score-up') {
-      visualScore += 1;
-      $('#visualScore').textContent = String(visualScore);
-      $('#visualScoreTrail').textContent = `score is now ${visualScore}`;
+    if (action === 'runtime-step') {
+      visualRuntimeStep = visualRuntimeStep >= 3 ? 0 : visualRuntimeStep + 1;
+      updateRuntimeVisualization();
       return;
     }
-    if (action === 'toggle-score') {
-      visualBranchScore = visualBranchScore >= 10 ? 4 : 12;
-      const passes = visualBranchScore >= 10;
-      $('#visualBranchAnswer').textContent = `${visualBranchScore} → ${passes ? 'true' : 'false'}`;
-      $('#visualTrueBranch').classList.toggle('is-active', passes);
-      $('#visualFalseBranch').classList.toggle('is-active', !passes);
-      button.textContent = passes ? 'Try score 4' : 'Try score 12';
+    if (action === 'runtime-toggle') {
+      visualRuntimeMethod = visualRuntimeMethod === 'log' ? 'warn' : 'log';
+      visualRuntimeStep = 0;
+      updateRuntimeVisualization();
       return;
     }
-    if (action === 'replay-loop') {
-      const track = $('.loop-track', els.visualizationStage);
-      track.classList.remove('is-running');
-      void track.offsetWidth;
-      track.classList.add('is-running');
-      clearTimeout(loopAnimationTimer);
-      loopAnimationTimer = setTimeout(() => track.classList.remove('is-running'), 1800);
+    if (action === 'score-up' || action === 'score-reset') {
+      const previousScore = visualScore;
+      visualScore = action === 'score-reset' ? 0 : visualScore + 1;
+      $('#visualScore', els.visualizationStage).textContent = String(visualScore);
+      $('#visualScoreTrail', els.visualizationStage).textContent = action === 'score-reset'
+        ? 'Reset to zero'
+        : `Changed from ${previousScore} to ${visualScore}`;
+      pulseVisualizationElement($('#visualScore', els.visualizationStage));
       return;
     }
-    if (action === 'function-input') {
-      visualFunctionInput = visualFunctionInput >= 6 ? 2 : visualFunctionInput + 1;
-      $('#visualFunctionInput').textContent = String(visualFunctionInput);
-      $('#visualFunctionResult').textContent = String(visualFunctionInput * 2);
+    if (action === 'select-type') {
+      visualTypeIndex = Number(button.dataset.typeIndex);
+      updateTypeVisualization();
+      return;
+    }
+    if (action === 'select-math') {
+      visualMathOperator = button.dataset.operation;
+      updateMathVisualization();
+      return;
+    }
+    if (action === 'loop-step') {
+      stepLoopVisualization();
+      return;
+    }
+    if (action === 'select-array') {
+      visualArrayIndex = Number(button.dataset.arrayIndex);
+      renderArrayVisualization();
+      return;
+    }
+    if (action === 'array-push') {
+      const nextItems = ['berries', 'grapes', 'plums', 'pears', 'kiwi'];
+      if (visualArrayItems.length >= 8) {
+        $('#visualArrayStatus', els.visualizationStage).textContent = 'This small list is full — it now has eight items.';
+        return;
+      }
+      visualArrayItems.push(nextItems[(visualArrayItems.length - 3) % nextItems.length]);
+      visualArrayIndex = visualArrayItems.length - 1;
+      renderArrayVisualization();
       return;
     }
     if (action === 'toggle-mood') {
       visualPetIsPlayful = !visualPetIsPlayful;
-      $('#visualPetMood').textContent = visualPetIsPlayful ? '"playful"' : '"sleepy"';
+      const mood = visualPetIsPlayful ? 'playful' : 'sleepy';
+      $('#visualPetMood', els.visualizationStage).textContent = JSON.stringify(mood);
+      $('#visualObjectCodeMood', els.visualizationStage).textContent = mood;
+      $('#visualObjectAssignment', els.visualizationStage).textContent = `pet.mood = ${JSON.stringify(mood)};`;
+      $('#visualObjectStatus', els.visualizationStage).textContent = `Only mood changed. pet.name is still "Mochi".`;
       button.textContent = visualPetIsPlayful ? 'Make Mochi sleepy' : 'Change mood';
+      pulseVisualizationElement($('#visualPetMood', els.visualizationStage));
     }
   }
 
@@ -1979,6 +2230,7 @@
       if (button) submitQuiz(Number(button.dataset.answerIndex));
     });
     els.visualizationStage.addEventListener('click', handleVisualizationAction);
+    els.visualizationStage.addEventListener('input', handleVisualizationInput);
     $('#hintButton').addEventListener('click', () => {
       const lesson = activeLesson();
       hintVisibleFor = hintVisibleFor === lesson.id ? '' : lesson.id;
