@@ -959,6 +959,11 @@
   let runButtonTimer = null;
   let exerciseRunTimer = null;
   let exerciseOutputCount = 0;
+  let visualScore = 0;
+  let visualBranchScore = 12;
+  let visualFunctionInput = 4;
+  let visualPetIsPlayful = false;
+  let loopAnimationTimer = null;
 
   const els = {
     app: $('.main-area'),
@@ -977,6 +982,9 @@
     engineDetails: $('#engineDetails'),
     engineTermGrid: $('#engineTermGrid'),
     analogyGrid: $('#analogyGrid'),
+    visualizationTitle: $('#visualizationTitle'),
+    visualizationCaption: $('#visualizationCaption'),
+    visualizationStage: $('#visualizationStage'),
     breakdownList: $('#breakdownList'),
     exampleDescription: $('#exampleDescription'),
     exampleCode: $('#exampleCode'),
@@ -1183,6 +1191,122 @@
     return result;
   }
 
+  function renderVisualization(lesson) {
+    const visualizations = {
+      'how-js-works': {
+        title: 'See the console speak',
+        caption: 'Both methods show messages in a console. A normal log is for information; a warning is a yellow heads-up.',
+        markup: `<div class="console-samples" role="img" aria-label="console.log shows a normal message, while console.warn shows a yellow warning">
+          <article class="console-sample"><div class="console-sample-code"><span class="console-kind">LOG</span><code>console.log("Ready!");</code></div><div class="console-sample-result"><span>›</span> Ready!</div></article>
+          <article class="console-sample is-warning"><div class="console-sample-code"><span class="console-kind">WARN</span><code>console.warn("Check this");</code></div><div class="console-sample-result"><span>⚠</span> Check this</div></article>
+        </div><div class="console-later-note"><span aria-hidden="true">!</span><p><strong>For later:</strong> <code>console.warn(...)</code> highlights a message that needs attention. It is a warning, not always a crash. You will see it in the Playground too.</p></div>`
+      },
+      variables: {
+        title: 'A steady name and a changing name',
+        caption: 'A player name usually stays the same, so use const. A score changes as you play, so use let.',
+        markup: `<div class="memory-visual">
+          <article class="memory-slot is-steady"><div class="memory-slot-head"><span>const</span><code>playerName</code><b aria-hidden="true">▣</b></div><div class="memory-value">"Mina"</div><small>Keep this value</small></article>
+          <article class="memory-slot is-changing"><div class="memory-slot-head"><span>let</span><code>score</code><b aria-hidden="true">↻</b></div><div class="memory-value" id="visualScore">0</div><small>This one can change</small></article>
+        </div><div class="visual-action-row"><code>score = score + 1</code><button type="button" class="visual-action-button" data-visual-action="score-up">Add 1 point</button><span class="visual-action-result" id="visualScoreTrail">score starts at 0</span></div>`
+      },
+      values: {
+        title: 'Same-looking values, different jobs',
+        caption: 'Quotes turn 42 into text. Without quotes it is a number, so JavaScript can do math with it.',
+        markup: `<div class="value-type-visual">
+          <article class="value-type-card is-number"><span>NUMBER</span><strong>42</strong><small>Good for counting and math</small></article>
+          <article class="value-type-card is-string"><span>STRING · TEXT</span><strong>"42"</strong><small>Quotes make it text</small></article>
+          <article class="value-type-card is-boolean"><span>BOOLEAN · YES/NO</span><strong>true</strong><small>A yes-or-no answer</small></article>
+        </div><div class="type-result-visual"><div><code>42 + 2</code><strong>44</strong></div><span>but</span><div><code>"42" + 2</code><strong>"422"</strong></div></div>`
+      },
+      strings: {
+        title: 'Build a message from little pieces',
+        caption: 'The variable name stands for its saved value. Put the pieces together and you get one complete sentence.',
+        markup: `<div class="string-build-visual"><div class="string-piece"><span>TEXT</span><code>"Hello, "</code></div><b>+</b><div class="string-piece is-variable"><span>VALUE OF name</span><code>"Kai"</code></div><b>+</b><div class="string-piece"><span>TEXT</span><code>"!"</code></div><i>→</i><div class="string-result"><span>ONE STRING</span><strong>Hello, Kai!</strong></div></div><div class="visual-note-line">A string is text. The plus sign joins text pieces together.</div>`
+      },
+      numbers: {
+        title: 'Watch the math happen',
+        caption: 'JavaScript calculates the answer on the right side of the equals sign, then saves it under total.',
+        markup: `<div class="math-visual"><div class="math-number">12<small>energy</small></div><div class="math-operator">+</div><div class="math-number">4<small>bonus</small></div><div class="math-equals">=</div><div class="math-number is-answer">16<small>total</small></div></div><div class="math-operator-key"><span>+ add</span><span>− subtract</span><span>× multiply (<code>*</code>)</span><span>÷ divide (<code>/</code>)</span></div>`
+      },
+      conditions: {
+        title: 'One question picks one path',
+        caption: 'Try changing the score. The answer changes, so JavaScript chooses a different message.',
+        markup: `<div class="decision-visual"><div class="decision-question"><span>THE QUESTION</span><code>score &gt;= 10?</code><strong id="visualBranchAnswer">12 → true</strong></div><div class="decision-branches"><article class="decision-branch is-active" id="visualTrueBranch"><span>IF YES · TRUE</span><strong>Level up!</strong></article><article class="decision-branch" id="visualFalseBranch"><span>ELSE · FALSE</span><strong>Keep playing!</strong></article></div><button type="button" class="visual-action-button" data-visual-action="toggle-score">Try score 4</button></div>`
+      },
+      loops: {
+        title: 'One instruction, three repeats',
+        caption: 'The counter moves 1 → 2 → 3. After 3, the question is false, so the loop stops.',
+        markup: `<div class="loop-visual"><div class="loop-track"><article class="loop-round"><span>ROUND 1</span><strong>i = 1</strong><small>print 1</small></article><b>→</b><article class="loop-round"><span>ROUND 2</span><strong>i = 2</strong><small>print 2</small></article><b>→</b><article class="loop-round"><span>ROUND 3</span><strong>i = 3</strong><small>print 3</small></article><b>→</b><article class="loop-stop"><span>i = 4</span><strong>Stop</strong><small>4 is not ≤ 3</small></article></div><button type="button" class="visual-action-button" data-visual-action="replay-loop">Replay the loop</button></div>`
+      },
+      functions: {
+        title: 'A function takes in, works, and gives back',
+        caption: 'double receives a number, multiplies it by 2, then returns the answer to the code that called it.',
+        markup: `<div class="function-flow-visual"><div class="function-value"><span>INPUT</span><strong id="visualFunctionInput">4</strong></div><b>→</b><div class="function-machine"><span>FUNCTION</span><code>double(number)</code><small>number × 2</small></div><b>→</b><div class="function-value is-result"><span>RETURN</span><strong id="visualFunctionResult">8</strong></div></div><button type="button" class="visual-action-button" data-visual-action="function-input">Try another number</button>`
+      },
+      arrays: {
+        title: 'An array is a numbered list',
+        caption: 'The first item is at index 0—not 1. Each tile shows the position you use to get that item.',
+        markup: `<div class="array-visual"><div class="array-bracket">[</div><article class="array-item"><span>INDEX 0</span><strong>"mango"</strong></article><article class="array-item"><span>INDEX 1</span><strong>"popcorn"</strong></article><article class="array-item"><span>INDEX 2</span><strong>"cookies"</strong></article><div class="array-bracket">]</div></div><div class="visual-note-line"><code>snacks[0]</code> gives you <strong>"mango"</strong>, the first item.</div>`
+      },
+      objects: {
+        title: 'An object is a card of labeled details',
+        caption: 'Each label points to one value. Click the button to update the mood and see the value change.',
+        markup: `<div class="object-visual"><div class="object-card"><div class="object-card-title"><span aria-hidden="true">✦</span> pet</div><div class="object-property"><code>name</code><span>:</span><strong>"Mochi"</strong></div><div class="object-property"><code>mood</code><span>:</span><strong id="visualPetMood">"sleepy"</strong></div></div><button type="button" class="visual-action-button" data-visual-action="toggle-mood">Change mood</button></div>`
+      }
+    };
+    const visual = visualizations[lesson.id];
+    if (!visual) return;
+    els.visualizationTitle.textContent = visual.title;
+    els.visualizationCaption.textContent = visual.caption;
+    els.visualizationStage.innerHTML = visual.markup;
+    visualScore = 0;
+    visualBranchScore = 12;
+    visualFunctionInput = 4;
+    visualPetIsPlayful = false;
+    clearTimeout(loopAnimationTimer);
+  }
+
+  function handleVisualizationAction(event) {
+    const button = event.target.closest('[data-visual-action]');
+    if (!button) return;
+    const action = button.dataset.visualAction;
+    if (action === 'score-up') {
+      visualScore += 1;
+      $('#visualScore').textContent = String(visualScore);
+      $('#visualScoreTrail').textContent = `score is now ${visualScore}`;
+      return;
+    }
+    if (action === 'toggle-score') {
+      visualBranchScore = visualBranchScore >= 10 ? 4 : 12;
+      const passes = visualBranchScore >= 10;
+      $('#visualBranchAnswer').textContent = `${visualBranchScore} → ${passes ? 'true' : 'false'}`;
+      $('#visualTrueBranch').classList.toggle('is-active', passes);
+      $('#visualFalseBranch').classList.toggle('is-active', !passes);
+      button.textContent = passes ? 'Try score 4' : 'Try score 12';
+      return;
+    }
+    if (action === 'replay-loop') {
+      const track = $('.loop-track', els.visualizationStage);
+      track.classList.remove('is-running');
+      void track.offsetWidth;
+      track.classList.add('is-running');
+      clearTimeout(loopAnimationTimer);
+      loopAnimationTimer = setTimeout(() => track.classList.remove('is-running'), 1800);
+      return;
+    }
+    if (action === 'function-input') {
+      visualFunctionInput = visualFunctionInput >= 6 ? 2 : visualFunctionInput + 1;
+      $('#visualFunctionInput').textContent = String(visualFunctionInput);
+      $('#visualFunctionResult').textContent = String(visualFunctionInput * 2);
+      return;
+    }
+    if (action === 'toggle-mood') {
+      visualPetIsPlayful = !visualPetIsPlayful;
+      $('#visualPetMood').textContent = visualPetIsPlayful ? '"playful"' : '"sleepy"';
+      button.textContent = visualPetIsPlayful ? 'Make Mochi sleepy' : 'Change mood';
+    }
+  }
+
   function renderLesson() {
     const lesson = activeLesson();
     const lessonChanged = renderedLessonId !== lesson.id;
@@ -1204,6 +1328,7 @@
     els.engineDetails.hidden = !lesson.engineTerms;
     els.engineTermGrid.innerHTML = (lesson.engineTerms || []).map((item, index) => `<article class="engine-term-card"><span class="engine-term-number">${String(index + 1).padStart(2, '0')}</span><div><strong>${escapeHTML(item.term)}</strong><p>${escapeHTML(item.meaning)}</p></div></article>`).join('');
     els.analogyGrid.innerHTML = lesson.analogies.map((analogy) => `<article class="analogy-card"><div class="analogy-symbol" aria-hidden="true">${analogy.icon}</div><div class="analogy-copy"><strong>${analogy.title}</strong><p>${analogy.text}</p></div></article>`).join('');
+    if (lessonChanged) renderVisualization(lesson);
     els.breakdownList.innerHTML = lesson.breakdown.map((item, index) => `<article class="breakdown-item"><div class="breakdown-number">${String(index + 1).padStart(2, '0')}</div><div class="breakdown-copy"><strong>${item.title}</strong><p>${item.text}</p></div></article>`).join('');
     els.exampleDescription.innerHTML = lesson.exampleDescription;
     els.exampleCode.innerHTML = highlightCode(lesson.code);
@@ -1853,6 +1978,7 @@
       const button = event.target.closest('[data-answer-index]');
       if (button) submitQuiz(Number(button.dataset.answerIndex));
     });
+    els.visualizationStage.addEventListener('click', handleVisualizationAction);
     $('#hintButton').addEventListener('click', () => {
       const lesson = activeLesson();
       hintVisibleFor = hintVisibleFor === lesson.id ? '' : lesson.id;
