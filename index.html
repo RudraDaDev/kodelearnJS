@@ -114,6 +114,16 @@
               <button class="text-action" id="loadExampleButton" type="button"><span>↳</span> Load this example in the playground</button>
             </section>
 
+            <section class="walkthrough-card" aria-labelledby="walkthroughHeading">
+              <div class="walkthrough-header">
+                <div class="walkthrough-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H20v16H7.5A2.5 2.5 0 0 0 5 21zM5 5.5v13A2.5 2.5 0 0 1 7.5 16H20"/><path d="M9 7h7M9 10h5"/></svg></div>
+                <div><span class="mini-label">PIECE BY PIECE</span><h2 id="walkthroughHeading">Every part, explained</h2></div>
+              </div>
+              <p class="walkthrough-intro">Read this line left to right. Each highlighted piece has a job.</p>
+              <div class="walkthrough-code-line"><span class="walkthrough-code-dot" aria-hidden="true"></span><pre><code id="walkthroughCode"></code></pre></div>
+              <div class="walkthrough-parts" id="walkthroughParts"></div>
+            </section>
+
             <section class="challenge-card">
               <div class="challenge-star" aria-hidden="true">✦</div>
               <div class="challenge-content"><div class="challenge-topline"><span class="mini-label">YOUR TURN</span><span class="challenge-time">~ 1 min</span></div><h2 id="challengeTitle">Make it yours</h2><p id="challengeDescription"></p>

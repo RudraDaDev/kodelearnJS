@@ -14,7 +14,7 @@ Then open `http://localhost:4173`.
 
 ## What is included
 
-- Nine short JavaScript lessons with two analogies each, step-by-step breakdowns, syntax-highlighted examples, hints, fun facts, quizzes, and practice challenges.
+- Nine short JavaScript lessons with two analogies each, step-by-step and token-by-token breakdowns, syntax-highlighted examples, hints, fun facts, quizzes, and practice challenges.
 - A live JavaScript editor with a console, line numbers, keyboard indentation, and a sandboxed runner.
 - Multiple `.js` files per project. Use relative CommonJS imports such as `require("./helpers.js")` and export values with `module.exports`.
 - Local autosave, lesson progress, XP, individual file downloads, and project ZIP downloads.

@@ -21,6 +21,7 @@
       ],
       exampleDescription: 'This little score starts at 10, gets 5 more points, then prints a friendly message.',
       code: '// Your code runs in the console below ✨\nconst learner = "Ada";\nlet xp = 10;\n\nxp = xp + 5;\nconsole.log(learner + " earned " + xp + " XP!");',
+      walkthrough: {"title": "A message to the console", "code": "console.log(\"hello world\");", "parts": [{"token": "console", "meaning": "The environment-provided console object. It gives JavaScript a place to show debugging and output messages. This appears in the playground console, not as text on the webpage."}, {"token": ".log", "meaning": "A method on console. In JavaScript, console.log(...) is the usual counterpart to print() in languages like Python."}, {"token": "( ... )", "meaning": "Parentheses call the method and hold its argument: the value you want logged."}, {"token": "\"hello world\"", "meaning": "A string literal: plain text wrapped in double quotes. The quotes mark it as text; they are not part of the message."}, {"token": ";", "meaning": "A semicolon marks the end of this statement. JavaScript can often insert one automatically, but writing it makes statement boundaries clear."}]},
       challengeTitle: 'Give a value a name',
       challengeDescription: 'Change the player name, then make the score go up by 10. Press Run and check the console.',
       challengeCode: '// Make this mini profile yours\nconst player = "Pixel";\nlet score = 5;\n\nscore = score + 10;\nconsole.log(player + " has " + score + " points!");',
@@ -53,6 +54,7 @@
       ],
       exampleDescription: 'Three variables, three shapes. Ask JavaScript for a value’s type with <code>typeof</code>.',
       code: 'const score = 42;\nconst isReady = true;\nconst greeting = "Hello!";\n\nconsole.log(typeof score);\nconsole.log(typeof isReady);\nconsole.log(typeof greeting);',
+      walkthrough: {"title": "A boolean value, piece by piece", "code": "const isReady = true;", "parts": [{"token": "const", "meaning": "Declares a variable name that cannot be reassigned later."}, {"token": "isReady", "meaning": "The variable name. Choose a name that tells you what the value represents."}, {"token": "=", "meaning": "The assignment operator: put the value on the right into the name on the left. It does not mean “is equal to.”"}, {"token": "true", "meaning": "A boolean value meaning “yes” or “on.” It has no quotes; \"true\" in quotes would be text instead."}, {"token": ";", "meaning": "Marks the end of this statement. A semicolon is a helpful, consistent way to finish a line of code."}]},
       challengeTitle: 'Make a tiny player card',
       challengeDescription: 'Create one number, one string, and one boolean. Log each one to the console.',
       challengeCode: 'const lives = 3;\nconst player = "Nova";\nconst hasPowerUp = false;\n\nconsole.log(lives);\nconsole.log(player);\nconsole.log(hasPowerUp);',
@@ -85,6 +87,7 @@
       ],
       exampleDescription: 'Backticks let you blend a name into a sentence without a string of plus signs.',
       code: 'const name = "Sam";\nconst mood = "curious";\n\nconst message = `Hey ${name}, stay ${mood}!`;\nconsole.log(message);',
+      walkthrough: {"title": "A sentence with a name inside", "code": "const message = `Hi, ${name}!`;", "parts": [{"token": "const", "meaning": "Declares a variable binding. Use it when you do not plan to point this name at a different value later."}, {"token": "message", "meaning": "The variable name that will hold the finished sentence."}, {"token": "=", "meaning": "Assigns the value on the right to the variable on the left."}, {"token": "`...`", "meaning": "Backticks create a template literal: a string that can include line breaks and inserted values."}, {"token": "${name}", "meaning": "Interpolation. JavaScript evaluates name and places its current value right here in the string."}, {"token": ";", "meaning": "Ends the variable declaration statement."}]},
       challengeTitle: 'Write a little welcome',
       challengeDescription: 'Make a welcome message that includes a name and a favorite color. Log the finished sentence.',
       challengeCode: 'const name = "Kai";\nconst favoriteColor = "blue";\n\nconst welcome = `Hi ${name}! Your color is ${favoriteColor}.`;\nconsole.log(welcome);',
@@ -117,6 +120,7 @@
       ],
       exampleDescription: 'Give yourself a tiny energy boost. The math happens first; <code>console.log</code> shows the answer.',
       code: 'const startingEnergy = 12;\nconst bonus = 4;\nconst total = startingEnergy + bonus;\n\nconsole.log(total);',
+      walkthrough: {"title": "An addition saved as a value", "code": "const total = 12 + 4;", "parts": [{"token": "const", "meaning": "Declares a variable name for the result."}, {"token": "total", "meaning": "A descriptive name that will hold the final sum."}, {"token": "=", "meaning": "Assigns the calculation’s result to total."}, {"token": "12", "meaning": "A number value. Numbers do not need quotation marks."}, {"token": "+", "meaning": "The addition operator. With two numbers, it adds them together."}, {"token": "4", "meaning": "The second number value. JavaScript calculates 12 + 4 before assigning the answer."}, {"token": ";", "meaning": "Marks the end of this statement."}]},
       challengeTitle: 'Split the treasure',
       challengeDescription: 'Start with 24 coins. Split them equally between 3 friends and print how many each gets.',
       challengeCode: 'const coins = 24;\nconst friends = 3;\nconst coinsEach = coins / friends;\n\nconsole.log(coinsEach);',
@@ -149,6 +153,7 @@
       ],
       exampleDescription: 'Try changing the score. Watch the message switch when it crosses 10.',
       code: 'const score = 12;\n\nif (score >= 10) {\n  console.log("Level up!");\n} else {\n  console.log("Keep playing!");\n}',
+      walkthrough: {"title": "Two paths, one condition", "code": "if (score >= 10) { console.log(\"Level up!\"); } else { console.log(\"Keep playing!\"); }", "parts": [{"token": "if", "meaning": "Starts a decision. JavaScript checks the condition next."}, {"token": "(score >= 10)", "meaning": "The condition in parentheses. It becomes true or false, and that result chooses a path."}, {"token": ">=", "meaning": "“Greater than or equal to.” This compares score with 10 and returns a boolean."}, {"token": "{ ... }", "meaning": "Curly braces group the statements that run when the if condition is true."}, {"token": "else", "meaning": "Introduces the fallback path. This block runs when the condition was false."}, {"token": "console.log(...)", "meaning": "Prints the chosen message in the console. Only one of these two messages runs."}]},
       challengeTitle: 'Add a sunshine check',
       challengeDescription: 'Make a variable called <code>isSunny</code>. Print one message when it is true and another when it is false.',
       challengeCode: 'const isSunny = true;\n\nif (isSunny) {\n  console.log("Adventure time!");\n} else {\n  console.log("Cozy indoor day!");\n}',
@@ -181,6 +186,7 @@
       ],
       exampleDescription: 'This loop counts from 1 to 3. The three little parts in its header set up the repeat.',
       code: 'for (let i = 1; i <= 3; i++) {\n  console.log(`Round ${i}!`);\n}',
+      walkthrough: {"title": "The three controls in a for loop", "code": "for (let i = 1; i <= 3; i++) { console.log(i); }", "parts": [{"token": "for", "meaning": "Starts a loop: a block of code that repeats."}, {"token": "let i = 1", "meaning": "The setup runs once. It creates a counter named i and starts it at 1."}, {"token": ";", "meaning": "Separates the loop setup from its keep-going condition."}, {"token": "i <= 3", "meaning": "The condition is checked before each round. The loop continues while i is at most 3."}, {"token": ";", "meaning": "Separates the condition from the update step."}, {"token": "i++", "meaning": "Runs after each round and adds 1 to i, so the loop eventually stops."}, {"token": "{ ... }", "meaning": "The loop body. JavaScript repeats the statements inside these braces."}]},
       challengeTitle: 'Count down to launch',
       challengeDescription: 'Use a loop to print 3, 2, 1, then finish with “Blast off!”',
       challengeCode: 'for (let count = 3; count > 0; count--) {\n  console.log(count);\n}\n\nconsole.log("Blast off!");',
@@ -213,6 +219,7 @@
       ],
       exampleDescription: 'This function accepts a name and returns a custom greeting. Call it whenever you need one.',
       code: 'function greet(name) {\n  return `Hello, ${name}!`;\n}\n\nconst message = greet("Ada");\nconsole.log(message);',
+      walkthrough: {"title": "Define a reusable greeting", "code": "function greet(name) { return `Hello, ${name}!`; }", "parts": [{"token": "function", "meaning": "Keyword that defines a reusable block of JavaScript instructions."}, {"token": "greet", "meaning": "The function’s name. You use this name when you want to run it."}, {"token": "(name)", "meaning": "The parameter list. name is a placeholder for the value supplied when greet is called."}, {"token": "{ ... }", "meaning": "The function body: the instructions that run when the function is called."}, {"token": "return", "meaning": "Sends a result back to the caller and finishes this function call."}, {"token": "`Hello, ${name}!`", "meaning": "A template string that builds the greeting using the supplied name."}]},
       challengeTitle: 'Make a happy helper',
       challengeDescription: 'Write a function that accepts a name and returns a cheerful message. Call it with your name.',
       challengeCode: 'function cheer(name) {\n  return `You are awesome, ${name}!`;\n}\n\nconsole.log(cheer("Coder"));',
@@ -245,6 +252,7 @@
       ],
       exampleDescription: 'This list starts with two treats. Add one more and peek at the first item.',
       code: 'const snacks = ["mango", "popcorn"];\nsnacks.push("cookies");\n\nconsole.log(snacks[0]);\nconsole.log(snacks.length);',
+      walkthrough: {"title": "A list stored in one variable", "code": "const snacks = [\"mango\", \"popcorn\"];", "parts": [{"token": "const snacks", "meaning": "Declares a variable named snacks to hold the list."}, {"token": "=", "meaning": "Assigns the array on the right to the snacks variable."}, {"token": "[ ... ]", "meaning": "Square brackets create an array: an ordered list of items."}, {"token": "\"mango\"", "meaning": "The first item. Its index is 0 because JavaScript arrays start counting at zero."}, {"token": ",", "meaning": "Separates one item from the next."}, {"token": "\"popcorn\"", "meaning": "The second string item. Its index is 1."}, {"token": ";", "meaning": "Ends the declaration statement."}]},
       challengeTitle: 'Build a mini playlist',
       challengeDescription: 'Make an array of three song titles. Add a fourth song and print the last one.',
       challengeCode: 'const songs = ["Sunbeam", "Orbit", "Daydream"];\nsongs.push("Moonlight");\n\nconsole.log(songs[3]);',
@@ -277,6 +285,7 @@
       ],
       exampleDescription: 'One object keeps a pet’s details together. Dot notation fetches the name and lets us update the mood.',
       code: 'const pet = {\n  name: "Mochi",\n  mood: "sleepy"\n};\n\npet.mood = "playful";\nconsole.log(pet.name, pet.mood);',
+      walkthrough: {"title": "A pet object’s labeled details", "code": "const pet = { name: \"Mochi\", mood: \"sleepy\" };", "parts": [{"token": "const pet", "meaning": "Declares the variable pet, which will refer to this object."}, {"token": "{ ... }", "meaning": "Curly braces create an object, a group of labeled properties."}, {"token": "name", "meaning": "A property key: the label for one detail on the pet object."}, {"token": ":", "meaning": "Connects a property key to its value. Read it as “name has the value Mochi.”"}, {"token": "\"Mochi\"", "meaning": "The value stored under the name key. It is a string because it is in quotes."}, {"token": ",", "meaning": "Separates this property from the next one, mood."}, {"token": ";", "meaning": "Ends the statement that creates the object."}]},
       challengeTitle: 'Create a character card',
       challengeDescription: 'Make a character object with a name and level. Log a sentence using both details.',
       challengeCode: 'const hero = {\n  name: "Nova",\n  level: 7\n};\n\nconsole.log(`${hero.name} is level ${hero.level}!`);',
@@ -378,6 +387,9 @@
     breakdownList: $('#breakdownList'),
     exampleDescription: $('#exampleDescription'),
     exampleCode: $('#exampleCode'),
+    walkthroughHeading: $('#walkthroughHeading'),
+    walkthroughCode: $('#walkthroughCode'),
+    walkthroughParts: $('#walkthroughParts'),
     challengeTitle: $('#challengeTitle'),
     challengeDescription: $('#challengeDescription'),
     hintButton: $('#hintButton'),
@@ -585,6 +597,9 @@
     els.breakdownList.innerHTML = lesson.breakdown.map((item, index) => `<article class="breakdown-item"><div class="breakdown-number">${String(index + 1).padStart(2, '0')}</div><div class="breakdown-copy"><strong>${item.title}</strong><p>${item.text}</p></div></article>`).join('');
     els.exampleDescription.innerHTML = lesson.exampleDescription;
     els.exampleCode.innerHTML = highlightCode(lesson.code);
+    els.walkthroughHeading.textContent = lesson.walkthrough.title;
+    els.walkthroughCode.innerHTML = highlightCode(lesson.walkthrough.code);
+    els.walkthroughParts.innerHTML = lesson.walkthrough.parts.map((part, index) => `<article class="walkthrough-part"><div class="walkthrough-token-wrap"><span class="walkthrough-part-number">${String(index + 1).padStart(2, '0')}</span><code class="walkthrough-token">${escapeHTML(part.token)}</code></div><p>${escapeHTML(part.meaning)}</p></article>`).join('');
     els.challengeTitle.textContent = lesson.challengeTitle;
     els.challengeDescription.innerHTML = lesson.challengeDescription;
     const hintOpen = hintVisibleFor === lesson.id;
